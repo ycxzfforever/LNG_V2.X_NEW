@@ -1,0 +1,1007 @@
+if(PSamInit())
+  {
+    step=0x01;
+  }
+  else
+  {
+    FYD12864DispPrintf(3,1,"PSAM卡初始化失败");
+  }
+  if(step==0x01)
+  {
+    result=0;
+    result=Mt318PsamSelectMF();
+    if(result==0xaa)
+    {
+      step=0x02;
+    }
+    else
+    {
+      FYD12864DispPrintf(3,1,"PSAM选择MF失败");
+    }
+  }
+  if(step==0x02)
+  {
+    result=0;
+    result=Mt318PsamSelectAppFile();
+    if(result==0xaa)
+    {
+      step=0x03;
+    }
+    else
+    {
+      FYD12864DispPrintf(3,1,"PSAM选择DF失败");
+    }
+  }
+  if(step==0x03)
+  {
+    result=0;
+    result=Mt318CpuCardSelect();
+    if(result==0x59)
+    {
+      step=0x04;
+    }
+    else
+    {
+      FYD12864DispPrintf(3,1,"激活卡失败");
+    }
+  }
+  if(step==0x04)
+  {
+    result=0;
+    result=Mt318CpuSelectAppFile();
+    if(result==0xaa)
+    {
+      step=0x05;
+    }
+    else
+    {
+      FYD12864DispPrintf(3,1,"CU选择DF失败");
+    }
+  }
+  if(step==0x05)
+  {
+    result=0;
+    result=Mt318ReadValue(0x15,0,16);
+    if(result==0xaa)
+    {
+      memcpy(&cpucard.cardNum[0],&uart0.recbuf[8],8);
+      step=0x06;
+    }
+    else
+    {
+      FYD12864DispPrintf(3,1,"读15失败");
+    }
+  }
+  if(step==0x06)
+  {
+    result=0;
+    result=Mt318ReadValue(0x16,0,23);
+    if(result==0xaa)
+    {
+      memcpy(&cpucard.domainNo[0],&uart0.recbuf[8],3);
+      step=0x06;
+    }
+    else
+    {
+      FYD12864DispPrintf(3,1,"读16失败");
+    }  
+  }
+  if(step==0x06)
+  {
+    result=0;
+    result=Mt318ReadValue(0x1B,0,23);
+    if(result==0xaa)
+    {
+      memcpy(&cpucard.cardstate,&uart0.recbuf[8],1);
+      step=0x07;
+    }
+    else
+    {
+      FYD12864DispPrintf(3,1,"读1B失败");
+    }  
+  }
+  if(step==0x07)
+  {
+    result=0;
+    result=Mt318ReadValue(0x1D,0,23);
+    if(result==0xaa)
+    {
+      step=0x08;
+    }
+    else
+    {
+      FYD12864DispPrintf(3,1,"读1D失败");
+    } 
+  }
+  if(step==0x08)
+  {
+    result=0;
+    result=CpuCardVerifyPin();
+    if(result==0xaa)
+    {
+      step=0x09;
+    }
+    else
+    {
+      FYD12864DispPrintf(3,1,"个人密码失败");
+    }
+  }
+  if(step==0x09)
+  {
+    result=0;
+    result=CpuCardReadBalance();
+    if(result==0xaa)
+    {
+      memcpy(&cpucard.balence[0],&uart0.recbuf[8],4);
+      cpucard.money=CharBufferToLong(&cpucard.balence[0],4);
+      step=0x0b;
+    }
+    else
+    {
+      FYD12864DispPrintf(3,1,"读金额失败");
+    }
+  }
+  /*
+  if(step==0x0a)
+  {
+    result=0;
+    cardstate=0x04;
+    result=Mt318WriteValue(0x1B,0,1,&cardstate);
+    if(result==0xaa)
+    {
+      step=0x0b;
+    }
+    else
+    {
+      FYD12864DispPrintf(3,1,"写数据失败");
+    }
+  }
+  */
+  if(step==0x0b)
+  {
+    FYD12864DispPrintf(3,1,"写卡成功");
+    
+    if(cpucard.cardType==0x11)
+    {
+      FYD12864DispPrintf(1,1,"用户维护卡"); 
+    }
+    else if(cpucard.cardType==0x12)
+    {
+      FYD12864DispPrintf(1,1,"班组卡"); 
+    }
+    else if(cpucard.cardType==0x13)
+    {
+      FYD12864DispPrintf(1,1,"员工卡"); 
+    }
+    else if(cpucard.cardType==0x14)
+    {
+      FYD12864DispPrintf(1,1,"单位主卡"); 
+    }
+    else if(cpucard.cardType==0x21)
+    {
+      FYD12864DispPrintf(1,1,"用户卡"); 
+    }
+    else if(cpucard.cardType==0x22)
+    {
+      FYD12864DispPrintf(1,1,"记账卡"); 
+    }
+    FYD12864DispPrintf(2,1,"卡号:%02x%02x%02x%02x",cpucard.cardNum[0],cpucard.cardNum[1],cpucard.cardNum[2],\
+        cpucard.cardNum[3]);
+    if(cpucard.cardstate==0x00)
+    {
+      FYD12864DispPrintf(3,1,"正常卡");      
+    }
+    else if(cpucard.cardstate==0x01)
+    {
+      FYD12864DispPrintf(3,1,"黑卡");    
+    }
+    else if(cpucard.cardstate==0x02)
+    {
+      FYD12864DispPrintf(3,1,"充值灰卡");    
+    }
+    else if(cpucard.cardstate==0x04)
+    {
+       FYD12864DispPrintf(3,1,"消费灰卡");    
+    }
+    FYD12864DispPrintf(4,1,"余额:%.02f",(float)cpucard.money/100.00);
+    //FYD12864DispPrintf(4,1,"%02x%02x%02x%02x",cpucard.balence[0],cpucard.balence[1],cpucard.balence[2],cpucard.balence[3]);
+  }
+  
+  
+  //2016年6月23日
+  /*
+  if(step==0x06)
+  {
+    result=0;
+    result=Mt318ReadValue(0x1B,0,1);
+    if(result==0xaa)
+    {
+      memcpy(&cpucard.cardstate,&uart0.recbuf[8],1);
+      step=0x07;
+    }
+    else
+    {
+      FYD12864DispPrintf(3,1,"读1B失败");
+    }  
+  }
+  if(step==0x07)
+  {
+    //cpucard.pinEnable=0x01;
+    if(cpucard.pinEnable==0x01)
+    {
+      CardInputPassword();
+    }
+    else
+    {
+      result=0;
+      result=CpuCardVerifyPin(false);
+      if(result==0xaa)
+      {
+        step=0x08;
+      }
+      else
+      {
+        FYD12864DispPrintf(3,1,"默认密码验证失败");
+      }
+      if(step==0x08)
+      {
+        result=0;
+        result=CpuCardReadBalance();
+        if(result==0xaa)
+        {
+          memcpy(&cpucard.balence[0],&uart0.recbuf[8],4);
+          cpucardapp.money=CharBufferToLong(&cpucard.balence[0],4);
+          step=0x09;
+        }
+        else
+        {
+          FYD12864DispPrintf(3,1,"读金额失败");
+        }
+      }
+      if(step==0x09)
+      {
+        CpuCardDisplayMessage();
+      }
+    }
+  }
+  */
+ void CpuCardDisplayMessage(void)
+{
+  unsigned char count,result,array[10];
+  FYD12864ClrScreen();
+  FYD12864DispPrintf(1,1,"卡号:%02x%02x%02x%02x",cpucard.cardNum[4],cpucard.cardNum[5],\
+                   cpucard.cardNum[6],cpucard.cardNum[7]);
+  if(cpucard.cardType==0x11)
+  {
+    FYD12864DispPrintf(2,1,"用户维护卡"); 
+  }
+  else if(cpucard.cardType==0x12)
+  {
+    FYD12864DispPrintf(2,1,"班组卡"); 
+  }
+  else if(cpucard.cardType==0x13)
+  {
+    FYD12864DispPrintf(2,1,"员工卡");
+    FYD12864DispPrintf(4,1,"余额:%.02f",(float)cpucardapp.money/100.00);
+  }
+  else if(cpucard.cardType==0x14)
+  {
+    FYD12864DispPrintf(2,1,"单位主卡"); 
+  }
+  else if(cpucard.cardType==0x21)
+  {
+    FYD12864DispPrintf(2,1,"用户卡"); 
+    if(cpucard.pinEnable==0x01)
+    {
+      FYD12864DispPrintf(3,1,"请输入密码");
+    }
+    else
+    {
+      FYD12864DispPrintf(3,1,"默认密码");
+    }
+    for(count=0;count<10;count++)
+    {
+      if(cpucard.plateNo[count]!=0)
+      {
+        break;
+      }
+    }
+    for(result=0;count<10;result++,count++)
+    {
+      array[result]=cpucard.plateNo[count];
+    }
+    array[result]='\0';
+    FYD12864DispPrintf(3,1,"车牌: %s",&array[0]);
+    FYD12864DispPrintf(4,1,"余额:%.02f",(float)cpucardapp.money/100.00);
+    KeyBoardTaskClean();
+    KeyBoardTaskAdd(KEY_1_EV,CpucardTest1);
+    KeyBoardTaskAdd(KEY_2_EV,CpucardTest2);
+    KeyBoardTaskAdd(KEY_3_EV,CpucardTest3);
+  }
+  else if(cpucard.cardType==0x22)
+  {
+    FYD12864DispPrintf(2,1,"记账卡"); 
+    FYD12864DispPrintf(4,1,"余额:%.02f",(float)cpucardapp.money/100.00);
+  }
+  
+  if(cpucard.cardstate==0x00)
+  {
+    FYD12864DispPrintf(2,5,"正常卡");      
+  }
+  else if(cpucard.cardstate==0x01)
+  {
+    FYD12864DispPrintf(2,5,"黑卡");    
+  }
+  else if(cpucard.cardstate==0x02)
+  {
+    FYD12864DispPrintf(2,5,"充值灰卡");    
+  }
+  else if(cpucard.cardstate==0x04)
+  {
+     FYD12864DispPrintf(2,5,"消费灰卡");    
+  }
+}
+
+//2016年6月25日
+/*
+void StoreShiftRecord(void);
+bool ReadShiftRec(unsigned long recNum, unsigned char *pstr);
+
+void StorePriceRecord(void);
+bool ReadPriceRec(unsigned long recNum, unsigned char *pstr);
+*/
+
+/****************************************/
+/***************上下班记录***************/
+/****************************************/
+/*
+bool WriteShiftRec(unsigned long recNum, unsigned char *pstr)
+//存储上下班记录
+{
+  unsigned long addr;
+  unsigned long recid; 
+
+  recid = recNum%FlashShiftMaxCID; 
+  if(recid==0) recid=FlashShiftMaxCID;
+  addr = FlashShiftSAddr + (recid-1)*FlashShiftLen;  
+  return JS28F128FlashWriteBuf(addr,sizeof(struct FuelRecord),pstr);
+}
+
+bool WriteShiftBackupRec(unsigned char *pstr)
+//上下班记录备份
+{
+  return EepromExternalWriteBytes(410,sizeof(struct FuelRecord),pstr);
+}
+
+void StoreShiftRecord(void)
+//存储上下班流水记录
+{
+  unsigned long flownumber;
+  unsigned long tmp;
+  //if(WaitforCommand(0x51))
+  {
+  //  FuelRealData();
+  }
+  //存储
+  flownumber=EepromReadSystemPara(8004);
+  if(!WriteFlowRec(flownumber,&fuelrec.headflag))
+  {
+    FYD12864DispPrintf(1,1,"状态: 存储错误");
+    tmp=0x08;
+    EepromWritePara(8024,&tmp);
+    globalvaribles.SystemState=0x08;
+    for(tmp=0;tmp<50000;tmp++)
+    {
+    //  JXing485Net();
+    }
+    WriteFlowBackupRec(&fuelrec.headflag);
+  }
+}
+
+bool ReadShiftBackupRec(unsigned char *pstr)
+//读备份上下班记录
+{
+  return EepromExternalReadBytes(410,sizeof(struct FuelRecord),pstr);
+}
+
+bool ReadShiftRec(unsigned long recNum, unsigned char *pstr)
+//读上下班流水
+{
+  unsigned long addr;
+  recNum = recNum%FlashShiftMaxCID;	
+  if(recNum==0) recNum = FlashShiftMaxCID;
+  addr = FlashShiftSAddr + (recNum-1)*FlashShiftLen;
+  JS28F128FlashReadBuf(addr,sizeof(struct FuelRecord),pstr); 
+  if(pstr[0]!=0xdd)
+  {
+    if(ReadShiftBackupRec(pstr))
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+  return true;
+}
+*/
+/****************************************/
+/*************油价接受记录***************/
+/****************************************/
+/*
+bool WritePriceRec(unsigned long recNum, unsigned char *pstr)
+//存储油价接受记录
+{
+  unsigned long addr;
+  unsigned long recid; 
+
+  recid = recNum%FlashPriceMaxCID; 
+  if(recid==0) recid=FlashPriceMaxCID;
+  addr = FlashPriceSAddr+(recid-1)*FlashPriceLen;  
+  return JS28F128FlashWriteBuf(addr,sizeof(struct FuelRecord),pstr);
+}
+
+bool WritePriceBackupRec(unsigned char *pstr)
+//油价接受记录
+{
+  return EepromExternalWriteBytes(410,sizeof(struct FuelRecord),pstr);
+}
+
+void StorePriceRecord(void)
+//存储油价接受记录
+{
+  unsigned long flownumber;
+  unsigned long tmp;
+  //if(WaitforCommand(0x51))
+  {
+  //  FuelRealData();
+  }
+  //存储
+  flownumber=EepromReadSystemPara(8020);
+  if(!WriteFlowRec(flownumber,&fuelrec.headflag))
+  {
+    FYD12864DispPrintf(1,1,"状态: 存储错误");
+    tmp=0x08;
+    EepromWritePara(8024,&tmp);
+    globalvaribles.SystemState=0x08;
+    for(tmp=0;tmp<50000;tmp++)
+    {
+    //  JXing485Net();
+    }
+    WriteFlowBackupRec(&fuelrec.headflag);
+  }
+}
+
+bool ReadPriceBackupRec(unsigned char *pstr)
+//读备份油价接受记录
+{
+  return EepromExternalReadBytes(410,sizeof(struct FuelRecord),pstr);
+}
+
+bool ReadPriceRec(unsigned long recNum, unsigned char *pstr)
+//读油价接受记录
+{
+  unsigned long addr;
+  recNum = recNum%FlashPriceMaxCID;	
+  if(recNum==0) recNum = FlashPriceMaxCID;
+  addr = FlashPriceSAddr + (recNum-1)*FlashPriceLen;
+  JS28F128FlashReadBuf(addr,sizeof(struct FuelRecord),pstr); 
+  if(pstr[0]!=0xdd)
+  {
+    if(ReadPriceBackupRec(pstr))
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+  return true;
+}
+*/
+
+
+void UploadAddBlackList(void)
+//下载新增黑名单
+{
+  unsigned char sendArray[5];
+  unsigned long cardNum;//黑白名单
+  unsigned int segOffset;//段偏移
+  unsigned int segNum;//段数
+  unsigned long writeAdd;//写地址
+  unsigned long writeOffset;//写地址偏移卡个数
+  unsigned int writeNum;//写的次数，累计
+  unsigned long cardReceiveNum;//收到黑白名单个数
+  unsigned char step;
+  sendArray[0]=0x63;
+  sendArray[1]=1;
+  LongToCharBuffer(globalvaribles.basicBlackListVersion,&sendArray[2],2);
+  step=0;
+  KeyBoardTaskClean();
+  EventTaskClean();
+  FYD12864ClrScreen();
+  FYD12864DispPrintf(2,1,"新增黑名单下载中");
+  if(WaitforCommand(0x60))
+  {
+    KunlunSendCom(&sendArray[0],4);
+    if(WaitforCommand(0x63))
+    {
+      if(net2485.recbuf[11]==0x01)
+      {
+        cardNum=CharBufferToLong(&net2485.recbuf[7],4);
+        cardNum=cardNum-16;//减去头文件
+        cardNum=cardNum>>3;//除以每个字节的长度，得到黑白名单条数
+        step=0x01;
+      }
+    }
+  }
+  if(step==0x01)//请求下载新增黑名单
+  {
+    writeNum=0;
+    cardReceiveNum=0;
+    segOffset=0;
+    segNum=0;
+    writeAdd=0;
+    while(cardReceiveNum<cardNum)
+    {
+      if((cardNum-cardReceiveNum)>10)
+      {
+        segOffset+=5*writeNum;//段偏移
+        segNum=5;//段个数
+        writeAdd+=10*writeNum;//写偏移   
+        writeOffset=80;//写个数
+        writeNum++;
+        cardReceiveNum+=10;
+      }
+      else
+      {
+        segOffset+=5*writeNum;//段偏移
+        segNum=cardNum-cardReceiveNum;//段个数
+        writeAdd+=10*writeNum;//写偏移  
+        writeOffset=segNum*8;//写个数
+        cardReceiveNum=cardReceiveNum+segNum;
+      }
+      WaitForRequest(0x01,segOffset+1,2);
+      if(WaitforCommand(0x64))
+      {
+        //FYD12864DispPrintf(2,1,"F:%d,%d",cardNum,cardReceiveNum);;
+        EepromExternalWriteBytes(blackListNewAdd+writeAdd,writeOffset,&net2485.recbuf[11]);
+      }
+      else
+      {
+        break;
+      }   
+    }
+    //if(cardReceiveNum>=cardNum)
+    {
+      EepromWritePara(25,&cardNum);
+    }
+  }
+  maininterface();
+}
+
+void UploadWhiteCard(void)
+{
+  unsigned char sendArray[5];
+  unsigned long cardNum;//黑白名单
+  unsigned int segOffset;//段偏移
+  unsigned int segNum;//段数
+  unsigned long writeAdd;//写地址
+  unsigned long writeOffset;//写地址偏移卡个数
+  unsigned int writeNum;//写的次数，累计
+  unsigned long cardReceiveNum;//收到黑白名单个数
+  unsigned char step;
+  sendArray[0]=0x63;
+  sendArray[1]=3;
+  step=0;
+  KeyBoardTaskClean();
+  EventTaskClean();
+  FYD12864ClrScreen();
+  FYD12864DispPrintf(2,1,"白名单下载中..");
+  if(WaitforCommand(0x60))
+  {
+    KunlunSendCom(&sendArray[0],2);
+    if(WaitforCommand(0x63))
+    {
+      if(net2485.recbuf[11]==0x03)
+      {
+        cardNum=CharBufferToLong(&net2485.recbuf[7],4);
+        cardNum=cardNum-16;//减去头文件
+        cardNum=cardNum>>3;//除以每个字节的长度，得到黑白名单条数
+        step=0x01;
+      }
+    }
+  }
+  if(step==0x01)//请求下载白名单
+  {
+    writeNum=0;
+    cardReceiveNum=0;
+    segOffset=0;
+    segNum=0;
+    writeAdd=0;
+    while(cardReceiveNum<cardNum)
+    {
+      if((cardNum-cardReceiveNum)>10)
+      {
+        segOffset+=5*writeNum;//段偏移
+        segNum=5;//段个数
+        writeAdd+=10*writeNum;//写偏移   
+        writeOffset=80;//写个数
+        writeNum++;
+        cardReceiveNum+=10;
+      }
+      else
+      {
+        segOffset+=5*writeNum;//段偏移
+        segNum=cardNum-cardReceiveNum;//段个数
+        writeAdd+=10*writeNum;//写偏移  
+        writeOffset=segNum*8;//写个数
+        cardReceiveNum=cardReceiveNum+segNum;
+      }
+      WaitForRequest(0x03,segOffset+1,segNum);
+      if(WaitforCommand(0x64))
+      {
+        //FYD12864DispPrintf(2,1,"F:%d,%d",cardNum,cardReceiveNum);;
+        EepromExternalWriteBytes(whiteListAdd+writeAdd,writeOffset,&net2485.recbuf[11]);
+      }
+      else
+      {
+        break;
+      }   
+    }
+    //if(cardReceiveNum>=cardNum)
+    {
+      EepromWritePara(27,&cardNum);
+    }
+  }
+  maininterface();
+}
+
+void UploadBasicBlackList(void)
+//下载基本黑名单库
+{
+  unsigned char sendArray[5];
+  unsigned long cardNum;//黑白名单
+  unsigned int segOffset;//段偏移
+  unsigned int segNum;//段数
+  unsigned long writeAdd;//写地址
+  unsigned char writeOffset;//写地址偏移卡个数
+  unsigned int writeNum;//写的次数，累计
+  unsigned long cardReceiveNum;//收到黑白名单个数
+  unsigned char step;
+  sendArray[0]=0x63;
+  sendArray[1]=0;
+  step=0;
+  KeyBoardTaskClean();
+  Uart0Select(USART0_PRINT);
+  EventTaskClean();
+  FYD12864ClrScreen();
+  FYD12864DispPrintf(2,1,"基础黑名单下载中");
+  if(WaitforCommand(0x60))
+  {
+    KunlunSendCom(&sendArray[0],2);
+    if(WaitforCommand(0x63))
+    {
+      if(net2485.recbuf[11]==0x00)
+      {
+        cardNum=CharBufferToLong(&net2485.recbuf[7],4);
+        cardNum=cardNum-16;//减去头文件
+        cardNum=cardNum>>3;//除以每个字节的长度，得到黑白名单条数
+        step=0x01;
+      }
+    }
+  }
+  if(step==0x01)//请求下载白名单
+  {
+    writeNum=0;
+    cardReceiveNum=0;
+    segOffset=0;
+    segNum=0;
+    writeAdd=0;
+    while(cardReceiveNum<cardNum)
+    {
+      if((cardNum-cardReceiveNum)>10)
+      {
+        segOffset+=5*writeNum;//段偏移
+        segNum=5;//段个数
+        writeAdd+=10*writeNum;//写偏移   
+        writeOffset=80;//写个数
+        writeNum++;
+        cardReceiveNum+=10;
+      }
+      else
+      {
+        segOffset+=5*writeNum;//段偏移
+        segNum=cardNum-cardReceiveNum;//段个数
+        //WHPrintf("地址5:0x%lx\r\n",writeAdd);
+        //WHPrintf("地址6:%d\r\n",writeNum);
+        writeAdd+=10*writeNum;//写偏移  
+        writeOffset=segNum*8;//写个数
+        //WHPrintf("地址4:0x%lx\r\n",writeAdd);
+        cardReceiveNum=cardReceiveNum+segNum;
+      }
+      //WHPrintf("地址3:0x%lx\r\n",writeAdd);
+      WaitForRequest(0,segOffset+1,3);
+      if(WaitforCommand(0x64))
+      {  
+        //WHPrintf("地址:0x%lx\r\n",BlackCardSAddr);
+        //WHPrintf("地址1:0x%lx\r\n",writeAdd);
+        //WHPrintf("地址2:0x%lx\r\n",BlackCardSAddr+writeAdd);
+        //JS28F128FlashWriteChar(BlackCardSAddr+writeAdd+count,net2485.recbuf[11+count]);
+        JS28F128FlashWriteBuf(BlackCardSAddr+writeAdd,writeOffset,&net2485.recbuf[11]);
+      }
+      else
+      {
+        break;
+      }   
+    }
+    //if(cardReceiveNum>=cardNum)
+    {
+      EepromWritePara(24,&cardNum);
+    }
+  }
+  maininterface();
+  Uart0Select(USART0_CARD);
+}
+
+/**********************************************/
+/**************上下班流水记录查询**************/
+/**********************************************/
+/*
+void ShiftRecordDisplay(unsigned long flowid)
+//作用：班流水显示
+{
+  unsigned long rd;
+  unsigned long tempid;
+  memset(&fuelrec.headflag,0,sizeof(struct FuelRecord));
+  if(ReadFlowRec(flowid,&fuelrec.headflag))
+  {
+    FYD12864ClrScreen();
+    if(fuelrec.tType==0x05)
+    {
+      FYD12864DispPrintf(1,1,"上班");
+    }
+    else if(fuelrec.tType==0x06)
+    {
+      FYD12864DispPrintf(1,1,"下班");
+    }
+    FYD12864DispPrintf(1,5,"%02x%02x%02x%02x",fuelrec.shiftCardNum[4],fuelrec.shiftCardNum[5],\
+                   fuelrec.shiftCardNum[6],fuelrec.shiftCardNum[7]);
+    FYD12864DispPrintf(2,1,"班组号:%d",fuelrec.shiftNum);
+    rd=CharBufferToLong(&fuelrec.volumeTotal[0],4);
+    FYD12864DispPrintf(3,1,"累计:%.02f", (double)rd/100);   
+    FYD12864DispPrintf(4,1,"%02x-%02x-%02x %02x:%02x", fuelrec.endTime[1], fuelrec.endTime[2],\
+                                        fuelrec.endTime[3], fuelrec.endTime[4], fuelrec.endTime[5]);
+    tempid=EepromReadSystemPara(8004);
+    if(tempid>1)
+    {
+      if(flowid==1)
+      {
+        FYD12864NarrowUp(2,8);
+      }
+      else if(flowid==tempid)
+      {
+        FYD12864NarrowDown(2,8);
+      }
+    }
+    KeyBoardTaskAdd(KEY_OK_EV,FuelRecordPrint);
+  }
+  else
+  {
+    FYD12864ClrScreen();
+    FYD12864DispPrintf(2,2,"读流水失败");
+    FYD12864DispPrintf(4,1,"请按【返回】返回");
+    KeyBoardTaskClean();
+    KeyBoardTaskAdd(KEY_RET_EV,QueryFlowRecord);
+  }
+}
+void QueryShiftRecordUp(void)
+//作用：班流水显示记录向上查
+{
+  unsigned long tempid;
+  tempid=EepromReadSystemPara(8004);
+  globalvaribles.tempvarible+=1;
+  if(globalvaribles.tempvarible>=tempid)
+  {
+    globalvaribles.tempvarible=tempid;
+  }
+  FlowRecordDisplay(globalvaribles.tempvarible);
+}
+
+void QueryShiftRecordDown(void)
+//作用：班流水显示记录向下查
+{
+  globalvaribles.tempvarible--;
+  if(globalvaribles.tempvarible<=1)
+  {
+    globalvaribles.tempvarible=1;
+  }
+  FlowRecordDisplay(globalvaribles.tempvarible);
+}
+
+void QueryShiftRecordEnter(void)
+//输入班流水显示号确认
+{
+  unsigned long flowid;
+  unsigned long tempid;
+  char tempbuffer[10];
+  tempid=EepromReadSystemPara(8004);
+  memcpy(tempbuffer,&screen.array[0],10);
+  flowid=atol(tempbuffer);
+  if(flowid>tempid)
+  {
+    FYD12864ClrScreen();
+    FYD12864DispPrintf(2,1,"输入流水号太大");
+    FYD12864DispPrintf(4,1,"请按返回按键返回");
+    KeyBoardTaskClean();
+    KeyBoardTaskAdd(KEY_RET_EV,queryinterface);
+  }
+  else
+  {
+    globalvaribles.tempvarible=flowid;
+    FlowRecordDisplay(globalvaribles.tempvarible);
+    KeyBoardTaskClean();
+    KeyBoardTaskAdd(KEY_RET_EV,queryinterface);
+    KeyBoardTaskAdd(KEY_6_EV,QueryShiftRecordUp); 
+    KeyBoardTaskAdd(KEY_9_EV,QueryShiftRecordDown); 
+  }
+}
+
+void QueryShiftRecord(void)
+//班流水显示查询
+{
+  unsigned long rd;
+  KeyBoardTaskClean();
+  FYD12864ClrScreen();
+  rd=EepromReadSystemPara(8004);
+  if(rd==0)
+  {
+    FYD12864ClrScreen();
+    FYD12864DispPrintf(2,2,"没有存储记录");
+    FYD12864DispPrintf(4,1,"请按返回按键返回");
+    KeyBoardTaskClean();
+    KeyBoardTaskAdd(KEY_RET_EV,queryinterface); 
+  }
+  else
+  {
+    FYD12864DispPrintf(1,2,"流水记录查询");
+    FYD12864DispPrintf(2,1,"请输入");
+    FYD12864DispPrintf(3,1,"流水号:");
+    FYD12864DispPrintf(4,1,"范围:1~%ld",rd);
+    screen.displaymode=0x01;
+    screen.inputmaxlen=0x06;
+    screen.x=0x03;
+    screen.y=5;
+    KeyBoardTaskClean();
+    KeyBoardTaskAdd(KEY_RET_EV,queryinterface); 
+    KeyBoardTaskAdd(KEY_OK_EV,QueryShiftRecordEnter);
+    keyboardinput();
+  }
+}
+*/
+/**********************************************/
+/**************油价接受记录查询****************/
+/**********************************************/
+/*
+void PriceRecordDisplay(unsigned long flowid)
+//作用：油价接受记录
+{
+//  unsigned long rd;
+  unsigned long tempid;
+  memset(&fuelrec.headflag,0,sizeof(struct FuelRecord));
+  if(ReadFlowRec(flowid,&fuelrec.headflag))
+  {
+    FYD12864ClrScreen(); 
+    FYD12864DispPrintf(4,1,"%02x-%02x-%02x %02x:%02x", fuelrec.startTime[1], fuelrec.startTime[2],\
+                                        fuelrec.startTime[3], fuelrec.startTime[4], fuelrec.startTime[5]);
+    tempid=EepromReadSystemPara(8020);
+    if(tempid>1)
+    {
+      if(flowid==1)
+      {
+        FYD12864NarrowUp(2,8);
+      }
+      else if(flowid==tempid)
+      {
+        FYD12864NarrowDown(2,8);
+      }
+    }
+    KeyBoardTaskAdd(KEY_OK_EV,FuelRecordPrint);
+  }
+  else
+  {
+    FYD12864ClrScreen();
+    FYD12864DispPrintf(2,2,"读流水失败");
+    FYD12864DispPrintf(4,1,"请按【返回】返回");
+    KeyBoardTaskClean();
+    KeyBoardTaskAdd(KEY_RET_EV,QueryFlowRecord);
+  }
+}
+void QueryPriceRecordUp(void)
+//作用：油价接受记录向上查
+{
+  unsigned long tempid;
+  tempid=EepromReadSystemPara(8020);
+  globalvaribles.tempvarible+=1;
+  if(globalvaribles.tempvarible>=tempid)
+  {
+    globalvaribles.tempvarible=tempid;
+  }
+  FlowRecordDisplay(globalvaribles.tempvarible);
+}
+
+void QueryPriceRecordDown(void)
+//作用：油价接受记录向下查
+{
+  globalvaribles.tempvarible--;
+  if(globalvaribles.tempvarible<=1)
+  {
+    globalvaribles.tempvarible=1;
+  }
+  FlowRecordDisplay(globalvaribles.tempvarible);
+}
+
+void QueryPriceRecordEnter(void)
+//输入班流水显示号确认
+{
+  unsigned long flowid;
+  unsigned long tempid;
+  char tempbuffer[10];
+  tempid=EepromReadSystemPara(8020);
+  memcpy(tempbuffer,&screen.array[0],10);
+  flowid=atol(tempbuffer);
+  if(flowid>tempid)
+  {
+    FYD12864ClrScreen();
+    FYD12864DispPrintf(2,1,"输入流水号太大");
+    FYD12864DispPrintf(4,1,"请按返回按键返回");
+    KeyBoardTaskClean();
+    KeyBoardTaskAdd(KEY_RET_EV,queryinterface);
+  }
+  else
+  {
+    globalvaribles.tempvarible=flowid;
+    FlowRecordDisplay(globalvaribles.tempvarible);
+    KeyBoardTaskClean();
+    KeyBoardTaskAdd(KEY_RET_EV,queryinterface);
+    KeyBoardTaskAdd(KEY_6_EV,QueryPriceRecordUp); 
+    KeyBoardTaskAdd(KEY_9_EV,QueryPriceRecordDown); 
+  }
+}
+
+void QueryPriceRecord(void)
+//油价接受记录显示查询
+{
+  unsigned long rd;
+  KeyBoardTaskClean();
+  FYD12864ClrScreen();
+  rd=EepromReadSystemPara(8020);
+  if(rd==0)
+  {
+    FYD12864ClrScreen();
+    FYD12864DispPrintf(2,2,"没有存储记录");
+    FYD12864DispPrintf(4,1,"请按返回按键返回");
+    KeyBoardTaskClean();
+    KeyBoardTaskAdd(KEY_RET_EV,queryinterface); 
+  }
+  else
+  {
+    FYD12864DispPrintf(1,2,"流水记录查询");
+    FYD12864DispPrintf(2,1,"请输入");
+    FYD12864DispPrintf(3,1,"流水号:");
+    FYD12864DispPrintf(4,1,"范围:1~%ld",rd);
+    screen.displaymode=0x01;
+    screen.inputmaxlen=0x06;
+    screen.x=0x03;
+    screen.y=5;
+    KeyBoardTaskClean();
+    KeyBoardTaskAdd(KEY_RET_EV,queryinterface); 
+    KeyBoardTaskAdd(KEY_OK_EV,QueryPriceRecordEnter);
+    keyboardinput();
+  }
+}
+*/
+
+
