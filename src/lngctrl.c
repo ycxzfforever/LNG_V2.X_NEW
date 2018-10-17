@@ -412,25 +412,8 @@ void StartFueling(void)
                 availmoney = sysparas.accountcardmaxyue - m1card.cardbalance_another;
             }
 
-            //定气量加气
-            if(globalvar.fix == 1)
-            {
-                if(((globalvar.fixnum * fuelrecordinfo.price) / 100) > availmoney)      //定气量余额不足，直接改为定金额，金额为可用金额 ADD BY LY
-                {
-                    globalvar.fix = 2;
-                    globalvar.fixmoney = availmoney;
-                }
-            }
-            //定金额加气
-            else if(globalvar.fix == 2)
-            {
-                if(globalvar.fixmoney > availmoney)  //定金额超出可用金额，则直接将金额改为可用金额 ADD BY LY
-                {
-                    globalvar.fixmoney = availmoney;
-                }
-            }
-            //不是定气量，也不是定金额，就是正常加气，直接将加气设置为定金额加气，金额为可用金额 ADD BY LY
-            else
+			//不是定气量，也不是定金额，就是正常加气，直接将加气设置为定金额加气，金额为可用金额 ADD BY LY
+            if(globalvar.fix == 0)            
             {
                 //如果不是定量加气，则按定金额加气，如果没有到可用余额上限按下停止，则停止；如果达到可用余额上限，还未按停止键，则加气机达到余额上限自动停机 ADD BY LY
                 globalvar.fix = 2;
