@@ -644,7 +644,7 @@ void Reply_ExShiftId(void)
             return;
         }
 
-
+		globalvar.U8Temp = sysparas.shiftnum;
         Exshiftid(newshiftid);   //换班
 
     }
@@ -674,8 +674,7 @@ void Exshiftid(uint8_t id)
     sysparas.shiftransnum++;//更新班流水号 ADD BY LY
     shiftrecordinfo.classid = sysparas.shiftransnum;
     //班号
-    shiftrecordinfo.classnum  = sysparas.shiftnum;
-    sysparas.shiftnum = id;
+    shiftrecordinfo.classnum  = globalvar.U8Temp;  	//解决手动换班时，班号不对  
     //班起始枪累
     shiftrecordinfo.startgunvolume = sysparas.shiftstartvol;
     //班累合计（结束-开始）
@@ -707,6 +706,8 @@ void Exshiftid(uint8_t id)
 
     if(SaveFuelRecord(1))
     {
+    	//新班号
+    	sysparas.shiftnum = id;
         //新班开始枪累
         sysparas.shiftstartvol  = sysparas.totvolume;
         //新班开始金额

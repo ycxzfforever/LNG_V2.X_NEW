@@ -1374,6 +1374,7 @@ void DispSetShiftNum(void)
     //输入的班号需在0到shiftmaxnum之间 ADD BY LY
     if((tmp_sysparas.shiftnum > 0) && (tmp_sysparas.shiftnum <= tmp_sysparas.shiftmaxnum))
     {
+    	globalvar.U8Temp = sysparas.shiftnum;
         TaskAdd(KEY_OK, DispOK, DispSetShiftInfo1);
     }
     else if(tmp_sysparas.shiftnum > tmp_sysparas.shiftmaxnum)
