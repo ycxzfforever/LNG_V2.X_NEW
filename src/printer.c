@@ -209,7 +209,7 @@ void WHFuelRecord(void)
     WHPrinterNormalCmd();
     WHPrintfFlash("枪号:%02d #\r\n", sysparas.gunnum);
     WHPrintfFlash("班号:%02d #\r\n", fuelrecordinfo.classnum);
-    WHPrintfFlash("流水号:%ld\r\n", fuelrecordinfo.transnum);
+    
     if(sysparas.unit==2)
     {
 	    WHPrintfFlash("单价:%d.%02d 元/方\r\n", fuelrecordinfo.price / 100, fuelrecordinfo.price % 100);
@@ -234,6 +234,7 @@ void WHFuelRecord(void)
         WHPrintfFlash("进液量:%ld.%02d kg\r\n", (fuelrecordinfo.volume + fuelrecordinfo.backgas) / 100, (fuelrecordinfo.volume + fuelrecordinfo.backgas) % 100);
         WHPrintfFlash("回气量:%ld.%02d kg\r\n", fuelrecordinfo.backgas / 100, fuelrecordinfo.backgas % 100);
     }
+    WHPrintfFlash("流水号:%ld\r\n", fuelrecordinfo.transnum);
     if(sysparas.IsPrintCarnum == 1)
 		WHPrintfFlash("车牌号:%04ld\r\n", fuelrecordinfo.carnum_another);
 	WHPrintfFlash("站编码:%ld\r\n", sysparas.stationcode);

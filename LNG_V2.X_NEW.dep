@@ -6,167 +6,118 @@
   <configuration>
     <name>Debug</name>
     <outputs>
-      <file>$PROJ_DIR$\src\mt318.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\LNG_V2.pbd</file>
-      <file>$PROJ_DIR$\src\fuel.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\485net.r90</file>
-      <file>$PROJ_DIR$\Debug\Obj\ds3232.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\event.r90</file>
-      <file>$PROJ_DIR$\Debug\Obj\modbus.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\printer.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\timer2.r90</file>
-      <file>$PROJ_DIR$\Debug\Obj\cpupinpredefine.pbi</file>
       <file>$PROJ_DIR$\src\ctrl.c</file>
-      <file>$PROJ_DIR$\src\modbus.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\fuelready.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\systeminit.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\i2c.pbi</file>
       <file>$PROJ_DIR$\src\e28f128flash.c</file>
-      <file>$PROJ_DIR$\src\cpupinpredefine.c</file>
-      <file>$PROJ_DIR$\src\keyboard.c</file>
-      <file>$PROJ_DIR$\src\adc.c</file>
-      <file>$PROJ_DIR$\src\lngctrl.c</file>
       <file>$PROJ_DIR$\src\fyd12864.c</file>
-      <file>$PROJ_DIR$\src\datatypetransform.c</file>
-      <file>$PROJ_DIR$\src\eeprom.c</file>
-      <file>$PROJ_DIR$\src\timer1.c</file>
       <file>$PROJ_DIR$\src\i2c.c</file>
-      <file>$PROJ_DIR$\src\uart.c</file>
-      <file>$PROJ_DIR$\src\printer.c</file>
-      <file>$PROJ_DIR$\src\password.c</file>
-      <file>$PROJ_DIR$\src\secdisplay.c</file>
-      <file>$PROJ_DIR$\src\controlparas.c</file>
-      <file>$PROJ_DIR$\src\query.c</file>
+      <file>$PROJ_DIR$\src\eeprom.c</file>
+      <file>$PROJ_DIR$\src\mt318.c</file>
+      <file>$PROJ_DIR$\src\cpupinpredefine.c</file>
+      <file>$PROJ_DIR$\src\timer1.c</file>
+      <file>$PROJ_DIR$\src\modbus.c</file>
+      <file>$PROJ_DIR$\src\adc.c</file>
+      <file>$PROJ_DIR$\src\datatypetransform.c</file>
+      <file>$PROJ_DIR$\src\keyboard.c</file>
       <file>$PROJ_DIR$\src\store.c</file>
       <file>$PROJ_DIR$\src\menuset.c</file>
+      <file>$PROJ_DIR$\src\printer.c</file>
+      <file>$PROJ_DIR$\src\controlparas.c</file>
+      <file>$PROJ_DIR$\src\password.c</file>
+      <file>$PROJ_DIR$\src\query.c</file>
       <file>$PROJ_DIR$\src\devicetest.c</file>
       <file>$PROJ_DIR$\src\ds3232.c</file>
-      <file>$PROJ_DIR$\src\testuart.c</file>
-      <file>$PROJ_DIR$\src\485net.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\keyboard.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\othertask.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\fuelready.r90</file>
-      <file>$PROJ_DIR$\src\keyboardinput.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\mt318.pbi</file>
-      <file>$PROJ_DIR$\src\keyboardtask.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\interface.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\keyboardtask.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\fuel.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\adc.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\event.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\i2c.pbi</file>
+      <file>$PROJ_DIR$\src\secdisplay.c</file>
+      <file>$PROJ_DIR$\src\uart.c</file>
+      <file>$PROJ_DIR$\src\lngctrl.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\event.r90</file>
       <file>$PROJ_DIR$\Debug\Obj\lngctrl.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\timer2.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\ds3232.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\cpupinpredefine.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\fuel.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\event.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\485net.r90</file>
       <file>$PROJ_DIR$\src\othertask.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\password.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\fuelready.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\devicetest.pbi</file>
-      <file>$PROJ_DIR$\Debug\Exe\LNG_V2.X_NEW.hex</file>
+      <file>$PROJ_DIR$\Debug\Obj\keyboardtask.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\app.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\controlparas.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\fuel.r90</file>
-      <file>$PROJ_DIR$\src\event.c</file>
-      <file>$PROJ_DIR$\src\main.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\keyboard.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\mt318.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\adc.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\othertask.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\timer2.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\printer.pbi</file>
+      <file>$PROJ_DIR$\src\fuel.c</file>
+      <file>$PROJ_DIR$\src\485net.c</file>
+      <file>$PROJ_DIR$\src\keyboardtask.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\timer2.r90</file>
+      <file>$PROJ_DIR$\src\testuart.c</file>
+      <file>$PROJ_DIR$\src\keyboardinput.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\interface.pbi</file>
       <file>$PROJ_DIR$\src\timer3.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\password.pbi</file>
+      <file>$PROJ_DIR$\Debug\Exe\LNG_V2.X_NEW.hex</file>
+      <file>$PROJ_DIR$\Debug\Obj\LNG_V2.pbd</file>
       <file>$PROJ_DIR$\src\app.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\flashdisplay.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\systeminit.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\kunlun.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\eleclabel.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\uart.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\testuart.r90</file>
+      <file>$PROJ_DIR$\Debug\Obj\devicetest.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\modbus.pbi</file>
+      <file>$PROJ_DIR$\src\main.c</file>
       <file>$PROJ_DIR$\Debug\Obj\kunlun.r90</file>
-      <file>$PROJ_DIR$\Debug\Obj\query.pbi</file>
-      <file>$PROJ_DIR$\src\flashdisplay.c</file>
-      <file>$PROJ_DIR$\src\interface.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\testuart.r90</file>
       <file>$PROJ_DIR$\src\fuelready.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\uart0.pbi</file>
-      <file>$PROJ_DIR$\src\eleclabel.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\eepromapp.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\othertask.r90</file>
-      <file>$PROJ_DIR$\Debug\Obj\eeprom.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
-      <file>$PROJ_DIR$\src\eepromapp.c</file>
-      <file>$PROJ_DIR$\src\timer2.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\cpucard.pbi</file>
-      <file>$PROJ_DIR$\Debug\Exe\kunlun.hex</file>
-      <file>$PROJ_DIR$\Debug\Obj\menuset.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\timer1.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\password.r90</file>
-      <file>$PROJ_DIR$\Debug\Obj\keyboardinput.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\testuart.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\datatypetransform.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\kunlun.pbd</file>
-      <file>$PROJ_DIR$\Debug\Obj\cpucard.r90</file>
-      <file>$PROJ_DIR$\Debug\Obj\ctrl.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\kunlunprotocolanalysic.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\secdisplay.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\e28f128flash.pbi</file>
-      <file>$PROJ_DIR$\src\systeminit.c</file>
-      <file>$PROJ_DIR$\src\cpucard.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\interface.r90</file>
-      <file>$PROJ_DIR$\src\uart0.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\485net.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\uart0.r90</file>
+      <file>$PROJ_DIR$\Debug\Obj\menuset.pbi</file>
+      <file>$PROJ_DIR$\src\interface.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\eleclabel.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\keyboardinput.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\eepromapp.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\controlparas.pbi</file>
+      <file>$PROJ_DIR$\src\eleclabel.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\flashdisplay.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\query.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\uart.pbi</file>
+      <file>$PROJ_DIR$\src\event.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\othertask.r90</file>
+      <file>$PROJ_DIR$\Debug\Obj\e28f128flash.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\kunlunprotocolanalysic.r90</file>
+      <file>$PROJ_DIR$\Debug\Obj\timer1.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\eeprom.pbi</file>
+      <file>$PROJ_DIR$\src\flashdisplay.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\fuel.r90</file>
+      <file>$PROJ_DIR$\Debug\Obj\485net.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\uart0.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\kunlun.pbi</file>
+      <file>$PROJ_DIR$\src\systeminit.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\fuelready.r90</file>
+      <file>$PROJ_DIR$\src\eepromapp.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\password.r90</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\kunlun.pbd</file>
+      <file>$PROJ_DIR$\Debug\Obj\kunlunprotocolanalysic.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\datatypetransform.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\cpucard.r90</file>
+      <file>$PROJ_DIR$\src\timer2.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\secdisplay.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\cpucard.pbi</file>
+      <file>$PROJ_DIR$\src\cpucard.c</file>
+      <file>$PROJ_DIR$\Debug\Exe\kunlun.hex</file>
+      <file>$PROJ_DIR$\Debug\Obj\testuart.pbi</file>
+      <file>$PROJ_DIR$\src\uart0.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\ctrl.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\interface.r90</file>
+      <file>$PROJ_DIR$\Debug\Obj\timer3.pbi</file>
+      <file>$PROJ_DIR$\src\kunlunprotocolanalysic.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\store.pbi</file>
       <file>$PROJ_DIR$\src\kunlun.c</file>
       <file>$PROJ_DIR$\Debug\Obj\fyd12864.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\kunlunprotocolanalysic.r90</file>
-      <file>$PROJ_DIR$\Debug\Obj\timer3.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\store.pbi</file>
-      <file>$PROJ_DIR$\src\kunlunprotocolanalysic.c</file>
     </outputs>
-    <file>
-      <name>$PROJ_DIR$\src\mt318.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 38</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Debug\Obj\LNG_V2.pbd</name>
-      <inputs>
-        <tool>
-          <name>BILINK</name>
-          <file> 43 53 54 9 86 51 4 92 75 73 100 45 34 46 76 81 6 38 7 67 91 103 82 102 64</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\fuel.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 42</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 55</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>[ROOT_NODE]</name>
-      <outputs>
-        <tool>
-          <name>XLINK</name>
-          <file> 80 52</file>
-        </tool>
-      </outputs>
-    </file>
     <file>
       <name>$PROJ_DIR$\src\ctrl.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 89</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\modbus.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 6</file>
+          <file> 98</file>
         </tool>
       </outputs>
     </file>
@@ -175,43 +126,7 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 92</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\cpupinpredefine.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 9</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\keyboard.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 34</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\adc.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 43</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\lngctrl.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 46</file>
+          <file> 73</file>
         </tool>
       </outputs>
     </file>
@@ -220,34 +135,7 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 100</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\datatypetransform.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 86</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\eeprom.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 75</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\timer1.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 82</file>
+          <file> 104</file>
         </tool>
       </outputs>
     </file>
@@ -256,176 +144,12 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 45</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\uart.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 64</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\printer.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 7</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\password.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 49</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 83</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\secdisplay.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 91</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\controlparas.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 54</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\query.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 67</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\store.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 103</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\menuset.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 81</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\devicetest.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 51</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\ds3232.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 4</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\testuart.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 85</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 65</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\485net.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 97</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
           <file> 3</file>
         </tool>
       </outputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\keyboardinput.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 84</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\keyboardtask.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 41</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\othertask.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 35</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 74</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\event.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 44</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 5</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\main.c</name>
+      <name>$PROJ_DIR$\src\eeprom.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -434,7 +158,70 @@
       </outputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\timer3.c</name>
+      <name>$PROJ_DIR$\src\mt318.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 37</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\cpupinpredefine.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 29</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\timer1.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 75</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\modbus.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 55</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\adc.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 38</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\datatypetransform.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 89</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\keyboard.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 36</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\store.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
@@ -443,33 +230,211 @@
       </outputs>
     </file>
     <file>
+      <name>$PROJ_DIR$\src\menuset.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 61</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\printer.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 41</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\controlparas.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 66</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\password.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 50</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 85</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\query.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 69</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\devicetest.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 54</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\ds3232.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 28</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\secdisplay.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 92</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\uart.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 70</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\lngctrl.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 27</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\othertask.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 39</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 72</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\fuel.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 30</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 78</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\485net.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 79</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 32</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\keyboardtask.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 34</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\testuart.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 96</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 58</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\keyboardinput.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 64</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\timer3.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 100</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Obj\LNG_V2.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 38 35 66 29 89 54 28 73 76 65 104 3 36 27 86 61 55 37 41 69 92 102 75 100 70</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
       <name>$PROJ_DIR$\src\app.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 53</file>
+          <file> 35</file>
         </tool>
       </outputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\flashdisplay.c</name>
+      <name>$PROJ_DIR$\src\main.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 60</file>
+          <file> 86</file>
         </tool>
       </outputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\interface.c</name>
+      <name>[ROOT_NODE]</name>
       <outputs>
         <tool>
-          <name>BICOMP</name>
-          <file> 40</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 95</file>
+          <name>XLINK</name>
+          <file> 95 51</file>
         </tool>
       </outputs>
     </file>
@@ -478,11 +443,24 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 50</file>
+          <file> 1</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 36</file>
+          <file> 83</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\interface.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 48</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 99</file>
         </tool>
       </outputs>
     </file>
@@ -496,24 +474,42 @@
       </outputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\eepromapp.c</name>
+      <name>$PROJ_DIR$\src\event.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 73</file>
+          <file> 31</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 26</file>
         </tool>
       </outputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\timer2.c</name>
+      <name>$PROJ_DIR$\src\flashdisplay.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 47</file>
+          <file> 68</file>
         </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\systeminit.c</name>
+      <outputs>
         <tool>
-          <name>ICCAVR</name>
-          <file> 8</file>
+          <name>BICOMP</name>
+          <file> 2</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\eepromapp.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 65</file>
         </tool>
       </outputs>
     </file>
@@ -522,16 +518,20 @@
       <inputs>
         <tool>
           <name>BILINK</name>
-          <file> 43 53 54 79 9 89 86 51 4 92 75 73 63 44 100 45 40 34 84 41 46 76 81 6 38 35 49 7 67 91 103 61 82 102 64</file>
+          <file> 38 35 66 93 29 98 89 54 28 73 76 65 63 31 104 3 48 36 64 34 27 86 61 55 37 39 50 41 69 92 102 2 75 100 70</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\systeminit.c</name>
+      <name>$PROJ_DIR$\src\timer2.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 61</file>
+          <file> 40</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 45</file>
         </tool>
       </outputs>
     </file>
@@ -540,11 +540,11 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 79</file>
+          <file> 93</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 88</file>
+          <file> 90</file>
         </tool>
       </outputs>
     </file>
@@ -553,24 +553,11 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 71</file>
+          <file> 80</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 98</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\kunlun.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 62</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 66</file>
+          <file> 60</file>
         </tool>
       </outputs>
     </file>
@@ -579,11 +566,24 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 90</file>
+          <file> 88</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 101</file>
+          <file> 74</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\kunlun.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 81</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 57</file>
         </tool>
       </outputs>
     </file>
@@ -598,220 +598,168 @@
   <configuration>
     <name>Release</name>
     <outputs>
-      <file>$PROJ_DIR$\src\mt318.c</file>
-      <file>$PROJ_DIR$\Release\Obj\main.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\bitdefinitions\iom1280.inc</file>
-      <file>$TOOLKIT_DIR$\inc\clib\stdio.h</file>
-      <file>$PROJ_DIR$\Release\Obj\main.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\keyboardinput.pbi</file>
-      <file>$PROJ_DIR$\include\menuset.h</file>
-      <file>$PROJ_DIR$\include\cpupinpredefine.h</file>
-      <file>$PROJ_DIR$\Release\Obj\eeprom.pbi</file>
-      <file>$TOOLKIT_DIR$\src\template\cfg3soim.xcl</file>
-      <file>$PROJ_DIR$\Release\Obj\kunlun.pbd</file>
-      <file>$PROJ_DIR$\Release\Obj\lngctrl.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\clib\stdbool.h</file>
-      <file>$PROJ_DIR$\Release\Obj\printer.r90</file>
-      <file>$PROJ_DIR$\include\eeprom.h</file>
-      <file>$PROJ_DIR$\Release\Obj\cpupinpredefine.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\timer1.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\adc.r90</file>
-      <file>$PROJ_DIR$\include\fyd12864.h</file>
-      <file>$PROJ_DIR$\include\datatypetransform.h</file>
-      <file>$PROJ_DIR$\Release\Obj\i2c.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\secdisplay.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\app.r90</file>
-      <file>$PROJ_DIR$\include\mt318.h</file>
-      <file>$PROJ_DIR$\include\secdisplay.h</file>
-      <file>$PROJ_DIR$\include\query.h</file>
-      <file>$PROJ_DIR$\Release\Obj\keyboard.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\keyboardtask.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\store.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\eepromapp.pbi</file>
-      <file>$PROJ_DIR$\include\adc.h</file>
-      <file>$PROJ_DIR$\Release\Obj\ds3232.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\eeprom.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\event.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\datatypetransform.r90</file>
-      <file>$PROJ_DIR$\Release\Exe\LNG_V2.X_NEW.hex</file>
-      <file>$PROJ_DIR$\Release\Obj\fyd12864.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\cpucard.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\timer3.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\menuset.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\othertask.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\devicetest.pbi</file>
-      <file>$TOOLKIT_DIR$\lib\clib\cl3s-ec_mul-64.r90</file>
-      <file>$TOOLKIT_DIR$\inc\clib\stdarg.h</file>
-      <file>$PROJ_DIR$\include\eepromapp.h</file>
       <file>$PROJ_DIR$\src\ctrl.c</file>
-      <file>$PROJ_DIR$\src\modbus.c</file>
       <file>$PROJ_DIR$\src\e28f128flash.c</file>
-      <file>$PROJ_DIR$\src\cpupinpredefine.c</file>
-      <file>$PROJ_DIR$\src\keyboard.c</file>
-      <file>$PROJ_DIR$\src\adc.c</file>
-      <file>$PROJ_DIR$\src\lngctrl.c</file>
       <file>$PROJ_DIR$\src\fyd12864.c</file>
-      <file>$PROJ_DIR$\include\lngctrl.h</file>
-      <file>$PROJ_DIR$\src\datatypetransform.c</file>
-      <file>$PROJ_DIR$\src\eeprom.c</file>
-      <file>$PROJ_DIR$\src\timer1.c</file>
       <file>$PROJ_DIR$\src\i2c.c</file>
-      <file>$PROJ_DIR$\src\uart.c</file>
-      <file>$PROJ_DIR$\src\printer.c</file>
-      <file>$PROJ_DIR$\src\password.c</file>
-      <file>$PROJ_DIR$\src\secdisplay.c</file>
-      <file>$PROJ_DIR$\src\controlparas.c</file>
-      <file>$PROJ_DIR$\src\query.c</file>
+      <file>$PROJ_DIR$\src\eeprom.c</file>
+      <file>$PROJ_DIR$\src\mt318.c</file>
+      <file>$PROJ_DIR$\src\cpupinpredefine.c</file>
+      <file>$PROJ_DIR$\src\timer1.c</file>
+      <file>$PROJ_DIR$\src\modbus.c</file>
+      <file>$PROJ_DIR$\include\lngctrl.h</file>
+      <file>$PROJ_DIR$\src\adc.c</file>
+      <file>$PROJ_DIR$\src\datatypetransform.c</file>
+      <file>$PROJ_DIR$\src\keyboard.c</file>
       <file>$PROJ_DIR$\src\store.c</file>
       <file>$PROJ_DIR$\src\menuset.c</file>
+      <file>$PROJ_DIR$\src\printer.c</file>
+      <file>$PROJ_DIR$\src\controlparas.c</file>
+      <file>$PROJ_DIR$\src\password.c</file>
+      <file>$PROJ_DIR$\src\query.c</file>
       <file>$PROJ_DIR$\src\devicetest.c</file>
       <file>$PROJ_DIR$\src\ds3232.c</file>
-      <file>$PROJ_DIR$\src\keyboardinput.c</file>
-      <file>$PROJ_DIR$\src\keyboardtask.c</file>
+      <file>$PROJ_DIR$\src\secdisplay.c</file>
+      <file>$PROJ_DIR$\src\uart.c</file>
+      <file>$PROJ_DIR$\src\lngctrl.c</file>
       <file>$PROJ_DIR$\src\othertask.c</file>
-      <file>$PROJ_DIR$\src\event.c</file>
-      <file>$PROJ_DIR$\read me.txt</file>
-      <file>$PROJ_DIR$\src\main.c</file>
+      <file>$PROJ_DIR$\src\keyboardtask.c</file>
+      <file>$PROJ_DIR$\src\keyboardinput.c</file>
       <file>$PROJ_DIR$\src\timer3.c</file>
-      <file>$PROJ_DIR$\src\app.c</file>
-      <file>$PROJ_DIR$\Release\Exe\LNG_2.X_NEW.hex</file>
+      <file>$PROJ_DIR$\read me.txt</file>
       <file>$PROJ_DIR$\backup.txt</file>
-      <file>$PROJ_DIR$\src\flashdisplay.c</file>
+      <file>$PROJ_DIR$\src\app.c</file>
+      <file>$PROJ_DIR$\src\main.c</file>
       <file>$PROJ_DIR$\src\interface.c</file>
       <file>$PROJ_DIR$\src\eleclabel.c</file>
-      <file>$PROJ_DIR$\src\eepromapp.c</file>
+      <file>$PROJ_DIR$\src\event.c</file>
+      <file>$PROJ_DIR$\src\flashdisplay.c</file>
       <file>$PROJ_DIR$\src\systeminit.c</file>
+      <file>$PROJ_DIR$\src\eepromapp.c</file>
       <file>$PROJ_DIR$\src\cpucard.c</file>
+      <file>$PROJ_DIR$\Release\Obj\keyboard.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\cpupinpredefine.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\event.r90</file>
+      <file>$PROJ_DIR$\include\eeprom.h</file>
+      <file>$PROJ_DIR$\Release\Obj\adc.r90</file>
+      <file>$TOOLKIT_DIR$\src\template\cfg3soim.xcl</file>
+      <file>$PROJ_DIR$\include\fyd12864.h</file>
+      <file>$TOOLKIT_DIR$\inc\bitdefinitions\iom1280.inc</file>
+      <file>$PROJ_DIR$\Release\Obj\keyboardinput.pbi</file>
+      <file>$PROJ_DIR$\include\adc.h</file>
+      <file>$TOOLKIT_DIR$\inc\clib\stdio.h</file>
+      <file>$PROJ_DIR$\Release\Obj\datatypetransform.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\main.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\secdisplay.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\include\datatypetransform.h</file>
+      <file>$PROJ_DIR$\Release\Obj\timer1.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\printer.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\app.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\devicetest.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\keyboardtask.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\eeprom.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\i2c.r90</file>
+      <file>$TOOLKIT_DIR$\inc\clib\stdbool.h</file>
+      <file>$PROJ_DIR$\include\menuset.h</file>
+      <file>$PROJ_DIR$\include\secdisplay.h</file>
+      <file>$PROJ_DIR$\Release\Obj\kunlun.pbd</file>
+      <file>$PROJ_DIR$\Release\Obj\lngctrl.pbi</file>
+      <file>$PROJ_DIR$\include\cpupinpredefine.h</file>
+      <file>$PROJ_DIR$\Release\Obj\cpucard.r90</file>
+      <file>$TOOLKIT_DIR$\inc\clib\stdarg.h</file>
+      <file>$TOOLKIT_DIR$\lib\clib\cl3s-ec_mul-64.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\eeprom.r90</file>
+      <file>$PROJ_DIR$\include\eepromapp.h</file>
+      <file>$PROJ_DIR$\Release\Exe\LNG_V2.X_NEW.hex</file>
+      <file>$PROJ_DIR$\Release\Obj\timer3.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\store.r90</file>
+      <file>$PROJ_DIR$\include\mt318.h</file>
+      <file>$PROJ_DIR$\Release\Obj\fyd12864.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\othertask.pbi</file>
+      <file>$PROJ_DIR$\Release\Exe\LNG_2.X_NEW.hex</file>
       <file>$PROJ_DIR$\Release\Exe\LNG_V2.X_NEW_data.hex</file>
-      <file>$PROJ_DIR$\Release\Obj\controlparas.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\controlparas.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\eleclabel.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\query.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\app.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\iomacro.h</file>
-      <file>$PROJ_DIR$\Release\Obj\password.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\cpupinpredefine.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\adc.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\interface.r90</file>
-      <file>$TOOLKIT_DIR$\inc\clib\sysmac.h</file>
-      <file>$PROJ_DIR$\Release\Obj\modbus.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\mt318.r90</file>
-      <file>$PROJ_DIR$\include\controlparas.h</file>
-      <file>$PROJ_DIR$\Release\List\LNG_V2.X_NEW.map</file>
+      <file>$PROJ_DIR$\Release\Obj\ds3232.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\menuset.r90</file>
+      <file>$PROJ_DIR$\include\query.h</file>
+      <file>$PROJ_DIR$\Release\Obj\eepromapp.pbi</file>
       <file>$PROJ_DIR$\Release\Obj\cpucard.pbi</file>
       <file>$PROJ_DIR$\Release\Obj\eepromapp.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\flashdisplay.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\keyboard.pbi</file>
       <file>$PROJ_DIR$\Release\Obj\i2c.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\event.pbi</file>
-      <file>$PROJ_DIR$\include\timer3.h</file>
-      <file>$PROJ_DIR$\Release\Obj\interface.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\LNG_V2.pbd</file>
-      <file>$PROJ_DIR$\Release\Obj\timer3.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\ctrl.pbi</file>
-      <file>$PROJ_DIR$\include\i2c.h</file>
-      <file>$PROJ_DIR$\Release\Obj\datatypetransform.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\e28f128flash.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\eleclabel.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\keyboard.pbi</file>
       <file>$TOOLKIT_DIR$\inc\avr_macros.h</file>
-      <file>$PROJ_DIR$\Release\Obj\mt318.pbi</file>
-      <file>$PROJ_DIR$\include\app.h</file>
-      <file>$PROJ_DIR$\Release\Obj\printer.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\uart.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\flashdisplay.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\event.pbi</file>
+      <file>$PROJ_DIR$\include\i2c.h</file>
+      <file>$PROJ_DIR$\Release\Obj\e28f128flash.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\controlparas.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\mt318.r90</file>
+      <file>$TOOLKIT_DIR$\inc\clib\sysmac.h</file>
+      <file>$PROJ_DIR$\include\timer3.h</file>
+      <file>$PROJ_DIR$\include\controlparas.h</file>
+      <file>$PROJ_DIR$\Release\Obj\interface.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\cpupinpredefine.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\timer3.r90</file>
+      <file>$TOOLKIT_DIR$\inc\iomacro.h</file>
+      <file>$PROJ_DIR$\Release\Obj\controlparas.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\app.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\LNG_V2.pbd</file>
+      <file>$PROJ_DIR$\Release\Obj\interface.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\datatypetransform.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\password.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\ctrl.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\adc.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\modbus.pbi</file>
+      <file>$PROJ_DIR$\Release\List\LNG_V2.X_NEW.map</file>
+      <file>$PROJ_DIR$\Release\Obj\query.r90</file>
       <file>$PROJ_DIR$\Release\Obj\modbus.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\query.pbi</file>
-      <file>$TOOLKIT_DIR$\src\template\cfgm1280.xcl</file>
-      <file>$PROJ_DIR$\include\modbus.h</file>
-      <file>$PROJ_DIR$\Release\Obj\lngctrl.r90</file>
-      <file>$TOOLKIT_DIR$\inc\clib\string.h</file>
-      <file>$TOOLKIT_DIR$\inc\iom1280.h</file>
-      <file>$PROJ_DIR$\include\uart.h</file>
+      <file>$PROJ_DIR$\Release\Obj\printer.pbi</file>
       <file>$PROJ_DIR$\include\devicetest.h</file>
-      <file>$TOOLKIT_DIR$\inc\clib\stddef.h</file>
-      <file>$TOOLKIT_DIR$\inc\clib\pgmspace.h</file>
       <file>$PROJ_DIR$\Release\Obj\devicetest.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\systeminit.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\intrinsics.h</file>
-      <file>$PROJ_DIR$\Release\Obj\fyd12864.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\ds3232.pbi</file>
-      <file>$PROJ_DIR$\include\e28f128flash.h</file>
+      <file>$TOOLKIT_DIR$\inc\clib\stddef.h</file>
+      <file>$PROJ_DIR$\include\modbus.h</file>
+      <file>$PROJ_DIR$\Release\Obj\uart.r90</file>
       <file>$PROJ_DIR$\Release\Obj\menuset.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\clib\string.h</file>
+      <file>$PROJ_DIR$\Release\Obj\query.pbi</file>
+      <file>$PROJ_DIR$\include\app.h</file>
+      <file>$PROJ_DIR$\Release\Obj\ds3232.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\lngctrl.r90</file>
+      <file>$PROJ_DIR$\include\e28f128flash.h</file>
+      <file>$PROJ_DIR$\Release\Obj\systeminit.pbi</file>
+      <file>$PROJ_DIR$\include\uart.h</file>
       <file>$PROJ_DIR$\Release\Obj\ctrl.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\eleclabel.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\systeminit.r90</file>
+      <file>$TOOLKIT_DIR$\inc\iom1280.h</file>
+      <file>$PROJ_DIR$\Release\Obj\fyd12864.pbi</file>
+      <file>$TOOLKIT_DIR$\src\template\cfgm1280.xcl</file>
+      <file>$TOOLKIT_DIR$\inc\intrinsics.h</file>
       <file>$TOOLKIT_DIR$\inc\clib\math.h</file>
-      <file>$PROJ_DIR$\include\ctrl.h</file>
       <file>$PROJ_DIR$\Release\Obj\keyboardinput.r90</file>
-      <file>$PROJ_DIR$\include\password.h</file>
-      <file>$PROJ_DIR$\Release\Obj\uart.pbi</file>
-      <file>$PROJ_DIR$\include\keyboard.h</file>
-      <file>$TOOLKIT_DIR$\inc\clib\stdlib.h</file>
-      <file>$PROJ_DIR$\include\store.h</file>
-      <file>$PROJ_DIR$\Release\Obj\store.pbi</file>
-      <file>$PROJ_DIR$\include\kernel.h</file>
-      <file>$PROJ_DIR$\Release\Exe\kunlun.hex</file>
-      <file>$PROJ_DIR$\Release\Obj\timer1.r90</file>
-      <file>$PROJ_DIR$\Release\Obj\e28f128flash.r90</file>
-      <file>$PROJ_DIR$\include\ds3232.h</file>
       <file>$PROJ_DIR$\Release\Obj\othertask.r90</file>
-      <file>$PROJ_DIR$\Release\Exe\LNG_V2.X_NEW_eeprom.hex</file>
-      <file>$PROJ_DIR$\Release\Obj\secdisplay.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\keyboardtask.pbi</file>
-      <file>$PROJ_DIR$\Release\Obj\password.r90</file>
+      <file>$PROJ_DIR$\include\password.h</file>
+      <file>$PROJ_DIR$\Release\Obj\store.pbi</file>
       <file>$PROJ_DIR$\include\timer1.h</file>
+      <file>$PROJ_DIR$\include\keyboard.h</file>
       <file>$PROJ_DIR$\include\printer.h</file>
+      <file>$PROJ_DIR$\Release\Obj\keyboardtask.pbi</file>
+      <file>$PROJ_DIR$\Release\Exe\kunlun.hex</file>
+      <file>$PROJ_DIR$\Release\Obj\secdisplay.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\uart.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\e28f128flash.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\mt318.pbi</file>
+      <file>$PROJ_DIR$\Release\Exe\LNG_V2.X_NEW_eeprom.hex</file>
+      <file>$PROJ_DIR$\include\ds3232.h</file>
+      <file>$TOOLKIT_DIR$\inc\clib\pgmspace.h</file>
+      <file>$PROJ_DIR$\include\kernel.h</file>
+      <file>$PROJ_DIR$\include\ctrl.h</file>
+      <file>$PROJ_DIR$\Release\Obj\password.r90</file>
+      <file>$PROJ_DIR$\Release\Obj\systeminit.r90</file>
+      <file>$PROJ_DIR$\include\store.h</file>
+      <file>$TOOLKIT_DIR$\inc\clib\stdlib.h</file>
+      <file>$PROJ_DIR$\Release\Obj\eleclabel.pbi</file>
+      <file>$PROJ_DIR$\Release\Obj\timer1.r90</file>
     </outputs>
-    <file>
-      <name>$PROJ_DIR$\src\mt318.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 115</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 97</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>[ROOT_NODE]</name>
-      <outputs>
-        <tool>
-          <name>XLINK</name>
-          <file> 35 99 84 155</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Release\Obj\kunlun.pbd</name>
-      <inputs>
-        <tool>
-          <name>BILINK</name>
-          <file> 93 89 85 92 112 41 134 113 8 29 133 104 103 11 1 136 96 115 117 120 156 148 16 38 144</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Release\Exe\LNG_V2.X_NEW.hex</name>
-      <outputs>
-        <tool>
-          <name>XLINK</name>
-          <file> 99 84 155</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>XLINK</name>
-          <file> 121 9 17 22 86 15 34 130 31 152 32 36 20 26 123 4 39 119 97 158 13 88 21 28 151 109 118 42</file>
-        </tool>
-      </inputs>
-    </file>
     <file>
       <name>$PROJ_DIR$\src\ctrl.c</name>
       <outputs>
@@ -822,116 +770,21 @@
       </outputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\modbus.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 96</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 119</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
       <name>$PROJ_DIR$\src\e28f128flash.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 113</file>
+          <file> 94</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 152</file>
+          <file> 148</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\cpupinpredefine.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 92</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 15</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\keyboard.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 103</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 26</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\adc.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 93</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 17</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\lngctrl.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 11</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 123</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
@@ -944,70 +797,13 @@
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 36</file>
+          <file> 77</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\datatypetransform.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 112</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 34</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\eeprom.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 8</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 32</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\timer1.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 16</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 151</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
@@ -1016,159 +812,159 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 104</file>
+          <file> 87</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 20</file>
+          <file> 61</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\uart.c</name>
+      <name>$PROJ_DIR$\src\eeprom.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 144</file>
+          <file> 60</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 118</file>
+          <file> 71</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\printer.c</name>
+      <name>$PROJ_DIR$\src\mt318.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 117</file>
+          <file> 149</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 13</file>
+          <file> 96</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\password.c</name>
+      <name>$PROJ_DIR$\src\cpupinpredefine.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 91</file>
+          <file> 101</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 158</file>
+          <file> 40</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\secdisplay.c</name>
+      <name>$PROJ_DIR$\src\timer1.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 156</file>
+          <file> 55</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 21</file>
+          <file> 160</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\controlparas.c</name>
+      <name>$PROJ_DIR$\src\modbus.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 85</file>
+          <file> 112</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 86</file>
+          <file> 115</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\query.c</name>
+      <name>$PROJ_DIR$\src\adc.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 120</file>
+          <file> 111</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 88</file>
+          <file> 43</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\store.c</name>
+      <name>$PROJ_DIR$\src\datatypetransform.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 148</file>
+          <file> 108</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 28</file>
+          <file> 50</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\menuset.c</name>
+      <name>$PROJ_DIR$\src\keyboard.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 136</file>
+          <file> 89</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
@@ -1178,7 +974,121 @@
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\store.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 140</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 75</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\menuset.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 122</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 82</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\printer.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 116</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 56</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\controlparas.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 95</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 104</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\password.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 109</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 155</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\query.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 124</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 114</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
@@ -1187,17 +1097,17 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 41</file>
+          <file> 58</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 130</file>
+          <file> 118</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
@@ -1206,26 +1116,87 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 134</file>
+          <file> 126</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 31</file>
+          <file> 81</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\keyboardinput.c</name>
+      <name>$PROJ_DIR$\src\secdisplay.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 5</file>
+          <file> 146</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 52</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\uart.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 147</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 121</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\lngctrl.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 66</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 127</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\othertask.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 78</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 138</file>
         </tool>
       </outputs>
     </file>
@@ -1234,71 +1205,35 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 157</file>
+          <file> 144</file>
         </tool>
       </outputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\src\othertask.c</name>
+      <name>$PROJ_DIR$\src\keyboardinput.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 40</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 154</file>
+          <file> 47</file>
         </tool>
       </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\event.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 105</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 33</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\main.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 1</file>
-        </tool>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 4</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\src\timer3.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 38</file>
+          <file> 74</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 109</file>
+          <file> 102</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
@@ -1307,35 +1242,45 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 89</file>
+          <file> 105</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 22</file>
+          <file> 57</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 143 25 98 14 6 145 111 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\Release\Exe\LNG_2.X_NEW.hex</name>
-      <inputs>
-        <tool>
-          <name>XLINK</name>
-          <file> 121 9 17 22 86 15 34 130 31 152 32 101 36 20 26 123 4 39 119 97 13 88 21 28 151 109 118 42</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\flashdisplay.c</name>
+      <name>$PROJ_DIR$\src\main.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 102</file>
+          <file> 53</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 51</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 139 83 99 42 63 142 93 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 73 113 80 150</file>
         </tool>
       </outputs>
     </file>
@@ -1348,7 +1293,7 @@
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 94</file>
+          <file> 100</file>
         </tool>
       </outputs>
     </file>
@@ -1357,7 +1302,38 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 138</file>
+          <file> 159</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\event.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 92</file>
+        </tool>
+        <tool>
+          <name>ICCAVR</name>
+          <file> 41</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\flashdisplay.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 91</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\src\systeminit.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 129</file>
         </tool>
       </outputs>
     </file>
@@ -1366,44 +1342,68 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 29</file>
+          <file> 84</file>
         </tool>
         <tool>
           <name>ICCAVR</name>
-          <file> 101</file>
+          <file> 86</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>ICCAVR</name>
-          <file> 149 125 90 2 114 124 95 3 43 146 132 12 129 140 128 19 7 126 18 23 25 98 14 6 145 111 44 122 147 160 135 159 106 153 127 30 24 141 116 53</file>
+          <file> 153 132 103 46 90 123 97 49 69 158 135 62 152 136 119 54 67 130 45 76 83 99 42 63 142 93 72 120 157 143 128 141 98 151 117 48 64 154 125 9</file>
         </tool>
       </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\src\systeminit.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 131</file>
-        </tool>
-      </outputs>
     </file>
     <file>
       <name>$PROJ_DIR$\src\cpucard.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 100</file>
+          <file> 85</file>
         </tool>
       </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Obj\kunlun.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 111 105 95 101 108 58 126 94 60 84 133 87 89 66 53 122 112 149 116 124 146 140 55 74 147</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\LNG_V2.X_NEW.hex</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 113 80 150</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 134 44 43 57 104 40 50 118 81 148 71 77 61 39 127 51 82 115 96 155 56 114 52 75 160 102 121 70</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Release\Exe\LNG_2.X_NEW.hex</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 134 44 43 57 104 40 50 118 81 148 71 86 77 61 39 127 51 82 115 96 56 114 52 75 160 102 121 70</file>
+        </tool>
+      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\Release\Obj\LNG_V2.pbd</name>
       <inputs>
         <tool>
           <name>BILINK</name>
-          <file> 93 89 85 92 112 41 134 113 8 133 104 103 11 1 136 96 115 91 117 120 156 148 16 38 144</file>
+          <file> 111 105 95 101 108 58 126 94 60 133 87 89 66 53 122 112 149 109 116 124 146 140 55 74 147</file>
         </tool>
       </inputs>
     </file>
@@ -1412,7 +1412,7 @@
       <inputs>
         <tool>
           <name>XLINK</name>
-          <file> 121 9 17 22 86 37 15 137 34 130 31 152 32 101 87 33 36 20 94 26 142 27 123 4 39 119 97 154 158 13 88 21 28 139 151 109 118 42</file>
+          <file> 134 44 43 57 104 68 40 131 50 118 81 148 71 86 88 41 77 61 100 39 137 59 127 51 82 115 96 138 155 56 114 52 75 156 160 102 121 70</file>
         </tool>
       </inputs>
     </file>
