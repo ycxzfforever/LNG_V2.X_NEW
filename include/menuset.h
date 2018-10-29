@@ -53,9 +53,16 @@ void DispMenu_1(void);   //菜单界面1显示
 
 
 
-void DispGeneralInfo(void);   //通用信息设置
-void DispCommPara(void);   //通讯参数设置
-void DispCommonOpt(void);   //常用操作设置
+void DispGeneralInfo(void);     //通用信息设置
+void DispCommPara(void);   		//通讯参数设置
+void DispCommonOpt(void);   	//常用操作设置
+
+void DispSetPrint(void);		//打印相关设置
+void DispSetPrintTimes(void);	//打印次数设置
+void DispSetIsPrintCarnum(void);//是否打印车牌
+
+
+
 void DispMenu_2(void);   //菜单界面2显示
 void DispMenu_3(void);   //菜单界面3显示
 

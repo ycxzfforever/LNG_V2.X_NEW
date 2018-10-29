@@ -107,7 +107,7 @@ void ReadModbusAndPressure(void)
             }
         }
 
-        //读取压力变送器
+        //读取压力传感器的值
         if(!PressureGetValue())
         {
             globalvar.pressure_error++;

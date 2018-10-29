@@ -207,27 +207,30 @@ void WHFuelRecord(void)
     WHPrintfString("          LCNG加气凭条\r\n");
     WHPrinterFreeRow(1);
     WHPrinterNormalCmd();
-    WHPrintfFlash("枪号:%02d #\r\n", sysparas.gunnum);
-    WHPrintfFlash("班号:%02d #\r\n", fuelrecordinfo.classnum);
-    
+
     if(sysparas.unit==2)
     {
+	    WHPrintfFlash("气量:%ld.%02ld 方\r\n", fuelrecordinfo.volume / 100, fuelrecordinfo.volume % 100);    
 	    WHPrintfFlash("单价:%d.%02d 元/方\r\n", fuelrecordinfo.price / 100, fuelrecordinfo.price % 100);
-	    WHPrintfFlash("气量:%ld.%02ld 方\r\n", fuelrecordinfo.volume / 100, fuelrecordinfo.volume % 100);
 	}
 	else
 	{
+	    WHPrintfFlash("气量:%ld.%02ld kg\r\n", fuelrecordinfo.volume / 100, fuelrecordinfo.volume % 100);		
 		WHPrintfFlash("单价:%d.%02d 元/kg\r\n", fuelrecordinfo.price / 100, fuelrecordinfo.price % 100);
-	    WHPrintfFlash("气量:%ld.%02ld kg\r\n", fuelrecordinfo.volume / 100, fuelrecordinfo.volume % 100);	
 	}
-    WHPrintfFlash("金额:%ld.%02ld 元\r\n", fuelrecordinfo.money / 100, fuelrecordinfo.money % 100);
+	
+	WHPrintfFlash("金额:%ld.%02ld 元\r\n", fuelrecordinfo.money / 100, fuelrecordinfo.money % 100);
 
     if(fuelrecordinfo.usernum != 0)
     {
-        WHPrintfFlash("卡号:%08ld\r\n", fuelrecordinfo.usernum);
-        WHPrintfFlash("余额:%ld.%02ld 元\r\n", fuelrecordinfo.afterbalance / 100, fuelrecordinfo.afterbalance % 100);
+        WHPrintfFlash("卡号:%08ld\r\n", fuelrecordinfo.usernum);  
+		WHPrintfFlash("加气前余额:%ld.%02ld 元\r\n", fuelrecordinfo.beforebalance / 100, fuelrecordinfo.beforebalance % 100);	
+        WHPrintfFlash("加气后余额:%ld.%02ld 元\r\n", fuelrecordinfo.afterbalance / 100, fuelrecordinfo.afterbalance % 100);
 
     }
+	
+    WHPrintfFlash("枪号:%02d #\r\n", sysparas.gunnum);
+    WHPrintfFlash("班号:%02d #\r\n", fuelrecordinfo.classnum);
 
     if((sysparas.backgascalc == 1) && (fuelrecordinfo.stopreason != 0xFF))       //解灰数据不打印进液量和回气量
     {
@@ -261,11 +264,18 @@ void WHFuelRecord(void)
 *************************************************************************/
 void Printid(void)
 {
+	uint8_t printtimes;
+
+	printtimes = sysparas.printtimes;
+	
     WHPrinterInit();	//初始化。
 
     if(WHPrintReady())	//打印机已准备好
     {
-        WHFuelRecord();	//打印流水
+    	while(printtimes--)//打印次数控制
+    	{
+    		WHFuelRecord();	//打印流水
+    	}
     }
 }
 
@@ -329,9 +339,9 @@ void WHFuelShifRecord(void)
         WHPrintfString("计量单位:标方\r\n");
     }
 
-    WHPrintfFlash("开始时间:%02X-%02X-%02X %02X:%02X:%02X\r\n", shiftrecordinfo.classstarttime[0], shiftrecordinfo.classstarttime[1], shiftrecordinfo.classstarttime[2],
+    WHPrintfFlash("班开始时间:%02X-%02X-%02X %02X:%02X:%02X\r\n", shiftrecordinfo.classstarttime[0], shiftrecordinfo.classstarttime[1], shiftrecordinfo.classstarttime[2],
                   shiftrecordinfo.classstarttime[3], shiftrecordinfo.classstarttime[4], shiftrecordinfo.classstarttime[5]);
-    WHPrintfFlash("结束时间:%02X-%02X-%02X %02X:%02X:%02X\r\n", shiftrecordinfo.classendtime[0], shiftrecordinfo.classendtime[1], shiftrecordinfo.classendtime[2],
+    WHPrintfFlash("班结束时间:%02X-%02X-%02X %02X:%02X:%02X\r\n", shiftrecordinfo.classendtime[0], shiftrecordinfo.classendtime[1], shiftrecordinfo.classendtime[2],
                   shiftrecordinfo.classendtime[3], shiftrecordinfo.classendtime[4], shiftrecordinfo.classendtime[5]);
     WHPrinterFreeRow(1);
     WHPrintfString("     欢迎光临  出行平安\r\n");   //下分割线
@@ -397,6 +407,8 @@ void WHFuelSumRecord(void)
     {
         WHPrintfString("计量单位:标方\r\n");
     }
+
+    WHPrintfFlash("打印时间:20%02X-%02X-%02X %02X:%02X:%02X\r\n", time.year, time.month, time.day, time.hour, time.minute,time.second);
 
     WHPrinterFreeRow(1);
     WHPrintfString("     <请妥善保存此凭条>\r\n");   //脚注

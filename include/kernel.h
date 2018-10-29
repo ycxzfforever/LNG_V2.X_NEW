@@ -55,8 +55,8 @@ extern "C" {
 #define CLI() __disable_interrupt();
 #define SEI() __enable_interrupt();
 
-#define GetBit(dat,i) (((dat)&(1ul<<(i)))?1:0)  //判断dat第i位是否为1
-#define SetBit(dat,i) ((dat)|=(1ul<<(i)))        //将dat第i位置1
+#define GetBit(dat,i) (((dat)&(1ul<<(i)))?1:0)  //判断dat第i位是否为1（若dat为1个字节，最低位为0，最高位为7）
+#define SetBit(dat,i) ((dat)|=(1ul<<(i)))       //将dat第i位置1
 #define ClrBit(dat,i) ((dat)&=(~(1ul<<(i))))    //将dat第i位置0  
 
 #define  F_CPU    7372800

@@ -105,23 +105,25 @@ uint8_t Mt318GetCardStatus(void)
 ***************************************************************************/
 uint8_t Mt318GetCardSerialNum(void)  
 {
-    uint8_t     str[7] = {0x02, 0x00, 0x02, 0x34, 0x31, 0x03};
+    uint8_t     str[7] = {0x02, 0x00, 0x02, 0x34, 0x31, 0x03};//获取M1卡序列号命令
     uint32_t    timeout =  CARD_RESPONSE_MAX_TIME;//寻卡失败时，最大寻卡次数 ADD BY LY
     uint8_t     ret = false;
 
     memset((uint8_t*)mt318reader.recbuf, 0, sizeof(mt318reader.recbuf));
 
-    str[6] = Mt318CrcVerify(str, 6);
+    str[6] = Mt318CrcVerify(str, 6);//异或校验码，获取M1卡序列号命令的最后一字节
     mt318reader.err_code = 0;
 
 
     SELECT_CARD();
     OpenUart0RcvIRQ();//开uart0接收中断
 
-    Uart0SendStr(str, 7);   //发送
+	//发送获取M1卡序列号命令
+    Uart0SendStr(str, 7);   
 
     while(--timeout)
-    {
+    {	
+    	//mt318reader.recbuf[5] 为读卡器回复的：操作状态P 参看规格书 ADD BY LY
         if(mt318reader.recbuf[5] == 0x59 && mt318reader.recbuf[10] == 0x03)
         {
             ret = true;
@@ -148,6 +150,7 @@ uint8_t Mt318GetCardSerialNum(void)
         mt318reader.err_code = mt318reader.recbuf[5];
     }
 
+	//获取卡序列号超时 ADD BY LY
     if(timeout == 0)
         ret = false;
 

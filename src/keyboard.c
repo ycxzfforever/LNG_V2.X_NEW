@@ -35,13 +35,11 @@ uint32_t KeyBoardReadKey(void)
     volatile  uint8_t i;
     volatile  uint8_t rdp = 0;
     volatile  uint32_t rdv = 0;
-//  PORTE_PORTE3 = 0;
-//  PORTE_PORTE2 = 0;
+
     KEYBOARD_SH_L();
     KEYBOARD_CLK_L();
     __delay_cycles(100);   //必须的延时，因为触发器输入输出延时受电源电压影响较大
-//  PORTE_PORTE2 = 1;
-//  PORTE_PORTE3 = 1;
+
     KEYBOARD_CLK_H();
     KEYBOARD_SH_H();
     __delay_cycles(100);   //必须的延时，因为触发器输入输出延时受电源电压影响较大
@@ -49,10 +47,8 @@ uint32_t KeyBoardReadKey(void)
     for(i = 0; i < 24; i++)   ////读数据
     {
         rdp = PINE;
-//      PORTE_PORTE2 = 0;
         KEYBOARD_CLK_L();
         __delay_cycles(100);   //必须的延时，因为触发器输入输出延时受电源电压影响较大
-//      PORTE_PORTE2 = 1;
         KEYBOARD_CLK_H();
         __delay_cycles(100);   //必须的延时，因为触发器输入输出延时受电源电压影响较大
 
@@ -79,24 +75,33 @@ void KeyBoardReadKeyValue(void)
 {
     uint32_t    rdkey, rdkey1;
 
-    rdkey = KeyBoardReadKey();//读取键值
+	//读取键值
+    rdkey = KeyBoardReadKey();
 
-    if(globalvar.KeyPreValue == rdkey)   //如果该次键值与上次相同，表示按键未释放
+	//如果该次键值与上次相同，说明按键未释放
+    if(globalvar.KeyPreValue == rdkey)   
         return;
 
-    if(rdkey != 0x0000000)   //如果确实有键按下
+	//键值为非0，表示确实有键按下
+    if(rdkey != 0x0000000)   
     {
         _delay_ms(5);   //延时5ms
-        rdkey1 = KeyBoardReadKey();//再次读取键值
 
-        if(rdkey == rdkey1)   //如果两次的值相同，则表示确实有键按下
+		//再次读取键值
+        rdkey1 = KeyBoardReadKey();
+
+		//如果两次的值相同，则表示确实有键按下（软件防抖）
+        if(rdkey == rdkey1)   
         {
-            globalvar.KeyValue = rdkey; //给按键值赋值给全局键值
+        	//给按键值赋值给全局键值
+            globalvar.KeyValue = rdkey; 
+			//蜂鸣器响
             BeepOut(1);
         }
     }
-
-    globalvar.KeyPreValue = rdkey; //将当次按键赋值给前一次键值，为下次读取按键做准备
+	
+	//将当次按键赋值给前一次键值，为下次读取按键做准备
+    globalvar.KeyPreValue = rdkey; 
 }
 
 /************************************************************************
@@ -164,7 +169,7 @@ void NumKeyHandler(void)
                 ScreenInput.array[ScreenInput.inputlen++] = 0x39; // '9' BY LY
                 break;
 
-            case KEY_PT:// 小数点 BY LY
+            case KEY_PT:// 小数点 ADD BY LY
                 if(ScreenInput.pointnum == 0)
                 {
                     ScreenInput.pointnum = 1;
@@ -185,7 +190,7 @@ void NumKeyHandler(void)
                 break;
         }
     }
-    else //如果输出超出最大输入长度，当做输入的删除键 BY LY
+    else //如果输出超出最大输入长度，只有删除键有效 ADD BY LY
     {
         switch(globalvar.KeyValue)
         {
@@ -193,11 +198,14 @@ void NumKeyHandler(void)
             case KEY_CLR:
                 globalvar.KeyValue = 0;
 
+				//输入尚未结束
                 if(ScreenInput.inputlen > 0)  ScreenInput.inputlen--;
 
+				//输入小数点
                 if(ScreenInput.array[ScreenInput.inputlen] == 0x2E)   //小数点个数变为0 ADD BY LY
                     ScreenInput.pointnum = 0;
 
+				//输入都当空格处理
                 ScreenInput.array[ScreenInput.inputlen] = 0x20;//小数点变空格 ADD BY LY
                 break;
         }

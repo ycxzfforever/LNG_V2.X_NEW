@@ -242,14 +242,14 @@ typedef struct def_SysParas
     uint32_t	accountcardmaxyue;	//57记账卡余额上限    2位小数
     uint8_t     cardpsamnum;        //58psam卡卡座选择
     uint16_t    cardmaxday;         //59卡未使用最大间隔天数
-    uint8_t     cardcheck;          //60是否检验钢瓶
+    uint8_t     cardcheck;          //60是否检验钢瓶 0：不检验钢瓶；1：检验钢瓶
     uint8_t     usecard;            //61是否用卡    	0-可不使用卡，1-用卡，2-无卡
 
     //波特率设置
     uint32_t    modbusbaud;         //62流量计波特率
     uint32_t    pcbaud;             //63后台波特率
-    uint8_t     fuelmode;           //64加气模式
-    uint8_t     printmode;          //65小票打印方式
+    uint8_t     fuelmode;           //64加气模式 		 0：手动；1：后台；2：电子标签
+    uint8_t     printmode;          //65小票打印方式 0：不自动打印；1：自动打印
 
     //版本编号设置
     uint8_t     pricever;           //66单价版本号
@@ -296,7 +296,8 @@ typedef struct def_SysParas
     uint8_t		modbusaddr_g;		//215气相流量计地址
     uint8_t		modbusaddr_l;		//216液相流量计地址
     uint8_t		modbusRS485;		//217 1、气液相RS485线合并为1,2、气液相RS485分
-	uint8_t		backup2[13];		//备用，防止增加参数后EEPROM错误
+    uint8_t		printtimes;			//218 加气结束 小票打印次数设置 ADD BY LY
+	uint8_t		backup2[12];		//备用，防止增加参数后EEPROM错误（没增加N个参数，backup2就要减少N个备份，避免出现EEPROM错误）
 	
     uint16_t     crc;               //16位数据校验
 
@@ -364,7 +365,7 @@ typedef	struct	M1carddata
     uint8_t     keyB[6];
     uint8_t     existflag;              //是否有卡存在 1：卡插入；0：卡拔出
     uint8_t     checkflag;              //验证卡标志。 1：验证通过；0：验证失败；
-    uint8_t		checkresult;            //卡验证结果 错误，存储对应错误代码 ADD BY LY
+    uint8_t		checkresult;            //卡验证结果；0xFF:等待验证；0：验证通过；其他：错误代码 ADD BY LY
     uint16_t    debittimes;             //申请扣款次数。
 
     //块1.

@@ -16,6 +16,7 @@ fun         DispNextUI;     //用于消息显示后的下一个界面
 ***************************************************************************/
 void TaskAdd(uint32_t keyvalue, fun funname1, fun funname2)
 {
+	//按键值等于设定值，执行funname1，如果funname2不为NULL，接着执行funname2
     if(globalvar.KeyValue == keyvalue)
     {
         globalvar.KeyValue = 0;
@@ -100,13 +101,17 @@ void DispSet(uint8_t numpoint, uint32_t data, char __farflash * buf)
 
     NumKeyHandler();
     globalvar.pointnum = 0;
+	
+	//保存设置参数原来的值
     globalvar.beforedex = data;
 
     if(numpoint < 5)   //有小数点输入(小数点后面的位数为0,2,4)
     {
-        FYD12864DispPrintfFlash(1, 1, buf);
+		//提示设置内容
+		FYD12864DispPrintfFlash(1, 1, buf);
 
-        if(numpoint == 0)  //没有小数部分，输入小数，则显示为空 ADD BY LY
+		//输入的数据没有小数，若输入了小数，进行空字符处理 ADD BY LY
+        if(numpoint == 0)  
         {
             if(ScreenInput.array[ScreenInput.inputlen - 1] == 0x2E)
             {
@@ -115,7 +120,9 @@ void DispSet(uint8_t numpoint, uint32_t data, char __farflash * buf)
             }
 
             globalvar.pointnum = numpoint; //主要用于主显输入的时候，小数点是否显示的判断 BY LY
+            //保存设置参数现在的值
             globalvar.afterdex = atol((char *)ScreenInput.array);
+			//没有小数部分，直接显示原来的值
             FYD12864DispPrintfFlash(2, 1, "旧值:%ld", data);
         }
         else if(numpoint == 2)
@@ -123,55 +130,69 @@ void DispSet(uint8_t numpoint, uint32_t data, char __farflash * buf)
             globalvar.pointnum = numpoint;
             sprintf_P(buff, "%f", atof((char *)ScreenInput.array) * 100);
             globalvar.afterdex = atol(buff);
-            FYD12864DispPrintfFlash(2, 1, "旧值:%ld.%02ld", data / 100, data % 100);   //小数的显示方法: 先将小数点显示出来，再分别显示小数点前后小数点后的数字 BY LY
+			//显示原来的值：2位小数， 先将小数点显示出来，再分别显示小数点前后小数点后的置 BY LY
+            FYD12864DispPrintfFlash(2, 1, "旧值:%ld.%02ld", data / 100, data % 100);   
         }
         else if(numpoint == 4)
         {
             globalvar.pointnum = numpoint;
+			
             sprintf_P(buff, "%f", atof((char *)ScreenInput.array) * 10000);
             globalvar.afterdex = atol(buff);
+			//显示原来的值：4位小数， 先将小数点显示出来，再分别显示小数点前后小数点后的置 BY LY
             FYD12864DispPrintfFlash(2, 1, "旧值:%ld.%04ld", data / 10000, data % 10000);
         }
-
+		//显示新值
         FYD12864DispPrintfFlash(3, 1, "新值:%s", ScreenInput.array);
         FYD12864ClearLine(4);
     }
-
-    else  if(numpoint == 5)   //选择输入 只输入选项，没有小数点，故对小数点做无效处理 BY LY
+	
+	//选择输入 只输入选项，没有小数点，故对小数点做无效处理 BY LY
+    else  if(numpoint == 5)   
     {
         if(ScreenInput.array[ScreenInput.inputlen - 1] == 0x2E)
         {
             ScreenInput.array[ScreenInput.inputlen - 1] = 0x20;
             ScreenInput.inputlen--;
         }
-
+		//保存设置参数现在的值
         globalvar.afterdex = atol((char *)ScreenInput.array);
 
+		//显示提示信息
         strcpy_P(buff, buf);   //将far flash char*转换成char* ADD BY LY
         FYD12864DispPrintfFlash(1, 1, "%s %ld", buff, data);
+		//显示现在的值
         FYD12864DispPrintfFlash(4, 1, "新值:%s", ScreenInput.array);
     }
-    else  if(numpoint == 6)   //密码输入 如果密码有小数点，则通过屏幕输入数组来显示 BY LY
+	//密码输入 如果密码有小数点，则通过屏幕输入数组来显示 BY LY
+    else  if(numpoint == 6)   
     {
+    	//显示提示信息
+        FYD12864DispPrintfFlash(1, 1, buf);   
+    	//保存设置参数现在的值
         globalvar.afterdex = atol((char *)ScreenInput.array);
-        FYD12864DispPrintfFlash(1, 1, buf);
 
+		//密码不直接显示，用"*"代替显示
         for(i = 0; i < ScreenInput.inputlen; i++)
         {
             tmpbuf[i] = '*';
 
         }
-
+		//显示密码"*"
         FYD12864DispPrintfFlash(2, 1, "新密码:%s", tmpbuf);
         FYD12864ClearLine(3);
         FYD12864ClearLine(4);
     }
-    else  if(numpoint == 7)   //负数显示 如果有小数点输入，则通过屏幕输入数组来显示 BY LY
+	//负数显示 如果有小数点输入，则通过屏幕输入数组来显示 ADD BY LY
+    else  if(numpoint == 7)   
     {
+    	//显示提示信息
+        FYD12864DispString(1, 1, buf, 1);    
+		//保存设置参数的新值
         globalvar.afterdex = atol((char *)ScreenInput.array);
-        FYD12864DispString(1, 1, buf, 1);
-        //FYD12864DispPrintfFlash( 1, 1, buf);
+		//显示设置参数原来的值
         FYD12864DispPrintfFlash(2, 1, "旧值:-%ld", data);
+		//显示设置参数新的值
         FYD12864DispPrintfFlash(3, 1, "新值:%s", ScreenInput.array);
         FYD12864ClearLine(4);
     }
@@ -2835,8 +2856,8 @@ void DispSetPrintMode(void)
     DispSet(5, sysparas.printmode, "打印方式设置");
     FYD12864DispPrintfFlash(2, 1, "0.手动打印");
     FYD12864DispPrintfFlash(3, 1, "1.自动打印");
-    TaskAdd(KEY_RET, DispCommonOpt, NULL);
-    TaskAdd(KEY_OK, DispOK, DispCommonOpt);
+    TaskAdd(KEY_RET, DispSetPrint, NULL);
+    TaskAdd(KEY_OK, DispOK, DispSetPrint);
 }
 
 /***************************************************************************
@@ -2874,6 +2895,48 @@ void DispSetIntNum(void)
     TaskAdd(KEY_OK, DispOK, DispCommonOpt);
 }
 
+//设置打印次数
+void DispSetPrintTimes(void)
+{
+    uint8_t tmp;
+    tmp_sysparas = sysparas;
+    ScreenInput.inputmaxlen = 1;
+	
+    tmp = atol((char *)ScreenInput.array);
+
+    if(tmp > 0)
+    {
+        tmp_sysparas.printtimes = tmp;
+        globalvar.paraindex = 218;
+    }
+    else if(ScreenInput.inputlen > 0)
+    {
+        FYD12864DispPrintfFlash(4, 1, "输入错误");
+        NumKeyHandler();
+        return;
+    }	
+	
+    DispSet(0, sysparas.printtimes, "打印次数设置");
+	
+    TaskAdd(KEY_RET, DispSetPrint, NULL);
+    TaskAdd(KEY_OK, DispOK, DispSetPrint);
+}
+
+//打印有关设置
+void DispSetPrint(void)
+{
+    InputInit();
+
+	FYD12864DispPrintfFlash(1, 1, "1.打印模式设置");
+	FYD12864DispPrintfFlash(2, 1, "2.打印次数设置");
+	FYD12864DispPrintfFlash(3, 1, "3.是否打印车牌");
+	FYD12864ClearLine(4);
+
+    TaskAdd(KEY_1, DispSetPrintMode, NULL);	
+    TaskAdd(KEY_2, DispSetPrintTimes, NULL);
+    TaskAdd(KEY_3, DispSetIsPrintCarnum, NULL);
+    TaskAdd(KEY_RET, DispCommonOpt, NULL);	
+}
 /***************************************************************************
 **	函数名称：DispCommonOpt(void)
 **	函数功能：常用操作设置界面1
@@ -2889,13 +2952,13 @@ void DispCommonOpt(void)
     FYD12864DispPrintfFlash(1, 1, "1.屏幕选择");
 //    FYD12864DispPrintfFlash( 2, 1, "2.联机模式");
     FYD12864DispPrintfFlash(2, 1, "2.是否取整");
-    FYD12864DispPrintfFlash(3, 1, "3.打印方式");
+    FYD12864DispPrintfFlash(3, 1, "3.打印设置");
     FYD12864DispPrintfFlash(4, 1, "4.压力调校");
 
     TaskAdd(KEY_1, DispSetPing, NULL);
 //    TaskAdd( KEY_2, DispSetOffline, NULL ); //huanghao 20161025
     TaskAdd(KEY_2, DispSetIntNum, NULL);   //ycx20161202
-    TaskAdd(KEY_3, DispSetPrintMode, NULL);
+    TaskAdd(KEY_3, DispSetPrint, NULL);
     TaskAdd(KEY_4, DispSetPressure, NULL);
     TaskAdd(KEY_DOWN, DispCommonOpt1, NULL);
     TaskAdd(KEY_RET, DispMenu_2, NULL);
@@ -2977,7 +3040,7 @@ void DispSetIsPrintCarnum(void)
     DispSet(5, sysparas.IsPrintCarnum, "是否打印车牌号");
     FYD12864DispPrintfFlash(2, 1, "0.不打印");
     FYD12864DispPrintfFlash(3, 1, "1.打印");
-    TaskAdd(KEY_RET, DispCommonOpt1, NULL);
+    TaskAdd(KEY_RET, DispSetPrint, NULL);
 }
 
 
@@ -2996,7 +3059,6 @@ void DispCommonOpt1(void)
     FYD12864DispPrintfFlash(1, 1, "1.加气模式设置");
     FYD12864DispPrintfFlash(2, 1, "2.日期时间设置");
     FYD12864DispPrintfFlash(3, 1, "3.联机模式设置");
-    FYD12864DispPrintfFlash(4, 1, "4.是否打印车牌");
 
     TaskAdd(KEY_1, DispSetFuelMode, NULL);
     TaskAdd(KEY_2, DispSetDateTime, NULL);

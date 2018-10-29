@@ -80,8 +80,11 @@
 /********************************************************************
 说明：电磁阀控制
 *********************************************************************/
+//电磁阀电源控制 任何阀门要打开，VCTRL_OPENKEY必须要执行 ADD BY LY
 #define   VCTRL_OPENKEY()       DDRH_Bit3 = 1;PORTH_Bit3 = 0
 #define   VCTRL_CLOSEKEY()      DDRH_Bit3 = 1;PORTH_Bit3 = 1
+
+//低、中、高压阀门没开关控制
 #define   VCTRL_LOW_OPEN()      DDRH_Bit4 = 1;PORTH_Bit4 = 0
 #define   VCTRL_LOW_CLOSE()     DDRH_Bit4 = 1;PORTH_Bit4 = 1
 #define   VCTRL_MID_OPEN()      DDRH_Bit5 = 1;PORTH_Bit5 = 0
@@ -101,7 +104,7 @@
 说明：掉电检测管脚
 *********************************************************************/
 #define PowerCheck()  DDRG_Bit5 = 0
-#define PowerCheckIn  PING_PING5//掉电管脚输入电平检测。
+#define PowerCheckIn  PING_PING5	//掉电管脚输入电平检测 1：掉电；0：未掉电
 
 /********************************************************************
 说明：EEPROM

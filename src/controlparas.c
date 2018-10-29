@@ -11,7 +11,7 @@
 void DispSetPrecoolingTimeout(void)
 {
     tmp_sysparas = sysparas;
-    ScreenInput.inputmaxlen = 4;
+    ScreenInput.inputmaxlen = 4;//上限9999
     tmp_sysparas.precooltimeout = atol((char *)ScreenInput.array);
     globalvar.paraindex = 206;
     DispSet(0, sysparas.precooltimeout, "预冷超时时间");
@@ -31,7 +31,7 @@ void DispSetPrecoolingTimeout(void)
 void DispSetPrecoolingTemp(void)
 {
     tmp_sysparas = sysparas;
-    ScreenInput.inputmaxlen = 3;
+    ScreenInput.inputmaxlen = 3;//上限999
     tmp_sysparas.precooltemp = atol((char *)ScreenInput.array);
     globalvar.paraindex = 203;
     DispSet(7, sysparas.precooltemp, "预冷临界温度设置");
@@ -51,7 +51,7 @@ void DispSetPrecoolingTemp(void)
 void DispSetPrecoolingGain(void)
 {
     tmp_sysparas = sysparas;
-    ScreenInput.inputmaxlen = 3;
+    ScreenInput.inputmaxlen = 3;//上限999
     tmp_sysparas.precoolgain = atol((char *)ScreenInput.array);
     globalvar.paraindex = 204;
     DispSet(0, sysparas.precoolgain, "预冷临界增益设置");
@@ -72,9 +72,15 @@ void DispSetPrecoolingDensty(void)
 {
     char buf[16] = {0};
     tmp_sysparas = sysparas;
+	
+	//输入6位，其中4位小数，一位小数点，一位整数
     ScreenInput.inputmaxlen = 6;
+	
+	//将ASCII转换成float 初次进入,ScreenInput.array 被初始化为0
+	//当设置新参数以后，就保存的是新的参数，在按OK键后，保存，就是保存的tmp_sysparas ADD BY LY
     sprintf_P(buf, "%f", atof((char *)ScreenInput.array) * 10000);
     tmp_sysparas.precooldensty = atol(buf);
+	
     globalvar.paraindex = 205;
     DispSet(4, sysparas.precooldensty, "预冷临界密度设置");
     TaskAdd(KEY_RET, DispSetControl1, NULL);
@@ -497,7 +503,6 @@ void DispCtrlParas4(void)
     TaskAdd(KEY_RET, DispQuery1, NULL);
 }
 
-
 /************************************************************************
 **	函数名称:	FactoryReset(void)
 **	函数功能:	恢复出厂设置时，各个参数重置
@@ -571,7 +576,7 @@ void FactoryReset(void)
 
     //波特率设置
     tmp_sysparas.modbusbaud = 19200;     //流量计波特率
-    tmp_sysparas.pcbaud = 38400;         //后台波特率
+    tmp_sysparas.pcbaud = 9600;          //后台波特率
 
     tmp_sysparas.fuelmode = 0;           //加气模式
     tmp_sysparas.printmode = 0;          //小票打印方式

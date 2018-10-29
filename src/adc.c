@@ -9,6 +9,7 @@ void PgADCUinit(void)
     //AD初始化
     ADCSRA = 0x00;    		//禁止使能
     ADMUX = (1 << REFS0); 	//通道选择--00000 - ADC0,单端输入
+    
     //设置参考电压 01 --AVCC
     //转换结果右对齐 0
     ADCSRB = (1 << MUX5);
@@ -16,7 +17,16 @@ void PgADCUinit(void)
     ACSR  = (1 << ACD);   	//禁用模拟比较器
     ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS0);
 }
-////////////////////////////////////////////////////////////////////获取01次压力
+
+/************************************************************************
+**	函数名称:	PgADCGetValueOneTime(void)
+**	函数功能:	气相，获取1次压力传感器的值
+**	输入参数: 无
+**	返回值		：1次压力转换的AD值
+
+**	创 建 者:	
+**	创建日期:	2018-09-10
+*************************************************************************/
 uint16_t PgADCGetValueOneTime(void)   //获取转换结果
 {
     uint16_t rd1, rd2;
@@ -30,7 +40,15 @@ uint16_t PgADCGetValueOneTime(void)   //获取转换结果
     return rd1 + rd2;
 }
 
-////////////////////////////////////////////////////////////////////获取16次压力
+/************************************************************************
+**	函数名称:	PgADCGetValueOneTime(void)
+**	函数功能:	气相，获取16次压力传感器的平均值
+**	输入参数: 无
+**	返回值		：16次压力转换的平均AD值
+
+**	创 建 者:	
+**	创建日期:	2018-09-10
+*************************************************************************/
 uint16_t PgADCGetValue(void)   //16次结果平均值
 {
     uint8_t i;
@@ -61,8 +79,15 @@ void PlADCUinit(void)
     ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS0);       //使能ADC，预分频设置为 32
 }
 
+/************************************************************************
+**	函数名称:	PlADCGetValueOneTime(void)
+**	函数功能:	液相，获取1次压力传感器的值
+**	输入参数: 无
+**	返回值		：1次压力转换的AD值
 
-
+**	创 建 者:	
+**	创建日期:	2018-09-10
+*************************************************************************/
 uint16_t PlADCGetValueOneTime(void)   //获取转换结果
 {
     uint16_t rd1, rd2;
@@ -76,7 +101,15 @@ uint16_t PlADCGetValueOneTime(void)   //获取转换结果
     return rd1 + rd2;
 }
 
+/************************************************************************
+**	函数名称:	PgADCGetValueOneTime(void)
+**	函数功能:	液相，获取16次压力传感器的平均值
+**	输入参数: 无
+**	返回值		：16次压力转换的平均AD值
 
+**	创 建 者:	
+**	创建日期:	2018-09-10
+*************************************************************************/
 uint16_t PlADCGetValue(void)   //16次结果平均值
 {
     uint8_t i;
@@ -107,29 +140,35 @@ uint16_t PlADCGetValue(void)   //16次结果平均值
 uint8_t PressureGetValue(void)
 {
 
-    uint32_t curAD = 0;
-    uint32_t deltaAD = 0;
-    uint32_t curPressure;
+    uint32_t curAD = 0;  	//当前读出的AD值
+    uint32_t deltaAD = 0;	//压力值矫正参数
+    uint32_t curPressure;	//当前矫正过的AD值
 
     //其实气相和液相在读值时，都是读的相同的寄存器，只是输入的通道不同
     //PlADCGetValue() 与 PgADCGetValue() 两个函数其实是一样的 ADD BY LY
 
     curAD = PlADCGetValue(); //获取当前压力AD值
 
-    if((curAD + 80) <= sysparas.pzero)     //压力零点
+	// 80 只是认为给予的一个误差范围，此值大小根据自己AD零点波动范围而定，通常取几十到一边 ADD BY LY
+	//通常，压力传感器零点的值，会大于等于sysparas.pzero（sysparas.pzero为压力传感器值为0时，AD采集到的真实值）
+	if((curAD + 80) <= sysparas.pzero)     //压力零点
     {
+    	//压力传感器异常
         return false;
     }
+	
     else if(curAD <= sysparas.pzero)
     {
         deltaAD = 0;
     }
+	//采集到的AD值大于0点的值，求偏移量deltaAD
     else
     {
         deltaAD = curAD - sysparas.pzero;
     }
-
-    curPressure = (100 * deltaAD) / sysparas.pcoeff;   //计算压力值
+	
+	//计算压力值
+    curPressure = (100 * deltaAD) / sysparas.pcoeff;   
     realtime.cur_pressure = curPressure;
     return true;
 }

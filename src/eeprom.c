@@ -985,6 +985,12 @@ uint8_t SaveSignalSysparas(uint8_t paraindex, uint8_t crcwrflag)
             data = (uint8_t*)&sysparas.modbusRS485;
             len = sizeof(sysparas.modbusRS485);
             break;
+			
+        case 218://小票打印次数
+            addroffset = (uint16_t)&sysparas.printtimes - (uint16_t)&sysparas.head;
+            data = (uint8_t*)&sysparas.printtimes;
+            len = sizeof(sysparas.printtimes);
+            break;
 
         default://当paraindex不是以上任何参数时，预防写错，将对应参数初始化为head的参数地址 ADD BY LY
             addroffset = 0;

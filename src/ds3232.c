@@ -16,9 +16,13 @@ bool  Ds3232ReadTime(void)
 {
     uint8_t tmpbuffer[7];
 
-    if(I2cReadBytesForDs3232(0xd0, 0x00, 7, tmpbuffer) != 7)     //读取时间和日期失败
+	//读取时间和日期失败
+    if(I2cReadBytesForDs3232(0xd0, 0x00, 7, tmpbuffer) != 7)   
+    {	
         return false;
+    }
 
+	//读取时间和日期成功，赋值给time
     time.year   = tmpbuffer[6];
     time.month  = tmpbuffer[5];
     time.day    = tmpbuffer[4];
@@ -79,14 +83,14 @@ void DispDateTime(void)
     if(globalvar.U32Temp < 5)
     {
         globalvar.U32Temp++;
-
+		//显示格式1
         FYD12864DispPrintfFlash(4, 1, "20%02X-%02X-%02X %02X:%02X",
                                 time.year, time.month, time.day, time.hour, time.minute);
     }
     else if(globalvar.U32Temp < 10)
     {
         globalvar.U32Temp++;
-
+		//显示格式2
         FYD12864DispPrintfFlash(4, 1, "20%02X-%02X-%02X %02X %02X",
                                 time.year, time.month, time.day, time.hour, time.minute);
     }

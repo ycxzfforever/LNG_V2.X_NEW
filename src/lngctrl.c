@@ -64,7 +64,7 @@ void PumpSwitch(uint8_t state)
             PUMPCTRL_LOW_OPEN();
             PUMPCTRL_HIGH_CLOSE();
             VCTRL_OPENKEY();
-            VCTRL_MID_OPEN();
+            VCTRL_MID_OPEN();//待机时，打开中压阀，保持小循环状态，是为了防止憋压，因为管路中有LNG液，温度升高后，会气化，产生压力 ADD BY LY
             VCTRL_HIGH_CLOSE();
             break;
     }
@@ -222,11 +222,13 @@ void StartPrecooling(void)
     if(globalvar.displayonce == 1)
     {
         globalvar.displayonce = 0;
-        memset(&realtime.lcng, 0, sizeof(RealTimeData));     //ycx加气前清零实时数据。
+		//加气前清零实时数据一次ycx
+        memset(&realtime.lcng, 0, sizeof(RealTimeData));     
     }
 
     ReadModbusAndPressure();//读取流量计和压力传感器的值 ADD BY LY
 
+	//模拟加液数据处理 
     if(sysparas.simulation)
     {
         realtime.cur_flowrate_l += 10;    //流速
@@ -241,24 +243,29 @@ void StartPrecooling(void)
         realtime.cur_density_l += 1;     //预冷密度
 
     }
-
-    if((DispNextUI == DispFirst) && (sysparas.precoolmode == 1))       //只有当按预冷键的时候才会存在大循环，其余情况下均进行小循环
+	
+	//只预冷、且为大循环预冷
+    if((DispNextUI == DispFirst) && (sysparas.precoolmode == 1))       
     {
+    	//打开阀门，进入大循环
         PumpSwitch(StaBPrecool);
         globalvar.workstate = StaBPrecool;
     }
     else
     {
+    	//打开阀门，进入小循环（加液前预冷，为小循环预冷）ADD BY LY
         PumpSwitch(StaSPrecool);
         globalvar.workstate = StaSPrecool;
     }
 
+	//清当前液相总量
     if(realtime.cur_totalize_l > 20000)
     {
         ModbusClearTotal_L(_MODBUS_L_);
         memset(&realtime.lcng, 0, sizeof(RealTimeData));     //清总累后必须重新读取新数据
     }
-
+	
+	//清当前气相总量
     if(realtime.cur_totalize_g > 20000)
     {
         ModbusClearTotal_G(_MODBUS_G_);
@@ -272,7 +279,7 @@ void StartPrecooling(void)
 
     OsplcShow(0, 0, 0, 0, 0);
 
-    //globalvar.timeout Timer1 定时器中断中处理 计算超时时间 每隔1s钟累加1次 ADD BY LY
+    //预冷超时判断 每隔1s钟累加1次 ADD BY LY
     if(globalvar.timeout > sysparas.precooltimeout)   //预冷超时
     {
         if(globalvar.otherstate == 1)   //对方未加液
@@ -294,30 +301,38 @@ void StartPrecooling(void)
                 || (globalvar.precoolfinished == 1))    //之前已经完成预冷，用于处理直接按加液键
         {
             globalvar.precoolfinished = 1; //预冷完成进来
-
+			//有卡并且卡验证通过、加液
             if((m1card.existflag == 1) && (m1card.checkresult == 0) && (DispNextUI != DispFirst))
             {
-                if(m1card.cardtype_another != 7)   //非VIP卡需要置灰
+            	//非VIP卡需要置灰
+                if(m1card.cardtype_another != 7)   
                 {
+                	//卡状态设置为：插入（该标志暂时没用）
                     fuelrecordinfo.cardstate = 1;
+					//置灰
                     DispUI = GreyLock;
                 }
+				//VIP 卡
                 else if(m1card.cardtype_another == 7)
                 {
                     fuelrecordinfo.cardstate = 1;
+					//直接加液
                     DispUI = StartFueling;
                 }
             }
+			//无卡（预冷、加液）
             else if(DispNextUI != NULL)
             {
                 DispUI = DispNextUI;
-
-                if(globalvar.otherstate == 1)   //对方未加液
+				//一泵双机互锁判断
+                if(globalvar.otherstate == 1)   
                 {
+                	//对方待机，进入小循环
                     PumpSwitch(StaSPrecool);
                 }
                 else
                 {
+                	//对方加液，关闭阀门
                     PumpSwitch(StaOtherFuel);
                 }
             }
@@ -327,14 +342,16 @@ void StartPrecooling(void)
             }
         }
     }
-
-    globalvar.stoppumptime = sysparas.stoppumptime + 2; //预冷后也停泵延时。
-
-    if(globalvar.stoptimes > 100)   //流量计异常和压力传感器异常停机
+	
+	//预冷后也停泵延时。
+    globalvar.stoppumptime = sysparas.stoppumptime + 2; 
+    
+	//流量计异常和压力传感器异常(globalvar.stoptimes = 1000)
+    if(globalvar.stoptimes > 100)   
     {
         globalvar.KeyValue = KEY_STOP;
     }
-
+	//按停机键，回到主界面
     TaskAdd(KEY_STOP, DispFirst, NULL);
 }
 
@@ -350,20 +367,27 @@ void StartPrecooling(void)
 void StartFueling(void)
 {
     uint32_t  availmoney;     //IC卡可用加气金额
-
-    memset(&fuelrecordinfo, 0, sizeof(FuelRecordInfo));                      //清流水结构体。
-    PumpSwitch(StaFuel);													   //开泵，进入加气状态
-    globalvar.fuelstep = 1;                                                  //加气步骤1。
-    globalvar.workstate = StaFuel;                                           //加气状态。
+    
+	//清流水结构体
+    memset(&fuelrecordinfo, 0, sizeof(FuelRecordInfo));   
+	
+	//开泵，进入加气状态
+    PumpSwitch(StaFuel);	
+	
+	//加气步骤1
+    globalvar.fuelstep = 1;         
+	//加气状态
+    globalvar.workstate = StaFuel;  
+	
     globalvar.timeout = 0;
     globalvar.stoptimes = 0;
     stopreason = 0;
     globalvar.displayonce = 1;
 
     //加气开始时间
-    memcpy(&fuelrecordinfo.starttime[0], &time.year, 6);   //这里面是HEX
+    memcpy(&fuelrecordinfo.starttime[0], &time.year, 6); 
 
-    //有卡 ADD BY LY
+    //有卡加气，加气流水中与卡相关的参数赋值 ADD BY LY
     if(m1card.existflag == 1)
     {
         //卡号
@@ -401,6 +425,7 @@ void StartFueling(void)
             //卡累计消费次数
             fuelrecordinfo.allconsumptiontimes = m1card.sumtimes;
 
+
             //定额处理
             if(m1card.cardtype_another != 3)   //非记账卡 ADD BY LY
             {
@@ -411,21 +436,16 @@ void StartFueling(void)
             {
                 availmoney = sysparas.accountcardmaxyue - m1card.cardbalance_another;
             }
-
-			//不是定气量，也不是定金额，就是正常加气，直接将加气设置为定金额加气，金额为可用金额 ADD BY LY
-            if(globalvar.fix == 0)            
-            {
-                //如果不是定量加气，则按定金额加气，如果没有到可用余额上限按下停止，则停止；如果达到可用余额上限，还未按停止键，则加气机达到余额上限自动停机 ADD BY LY
-                globalvar.fix = 2;
-                globalvar.fixmoney = availmoney;
-            }
+			
+            globalvar.fix = 2;//定金额加气
+            globalvar.fixmoney = availmoney;			
         }
     }
+	//无卡加气
     else
     {
         //默认交易价格
         fuelrecordinfo.price = sysparas.price[0];
-
     }
 
     //实时单价
@@ -458,7 +478,7 @@ void StartFueling(void)
     fuelrecordinfo.devicetype = sysparas.devicetype;
 
     DispUI = DispStartFueling;	//开始加气 ADD BY LY
-    realtime.powerdown = 0;                                                   //未掉电标志。
+    realtime.powerdown = 0;     //未掉电标志                                            
 }
 
 
@@ -468,9 +488,12 @@ double	 lngvolume = 0; //进液量
 double   cngvolume = 0; //回气量
 void DispStartFueling(void)
 {
-    globalvar.workstate = StaFuel;
-    globalvar.fuelstep = 2; //加气步骤2。
+	//加气步骤2
+    globalvar.fuelstep = 2; 
+	//加气状态
+    globalvar.workstate = StaFuel;    
 
+	//模拟加气
     if(sysparas.simulation)
     {
         realtime.cur_totalize_l += 0.11;
@@ -487,22 +510,26 @@ void DispStartFueling(void)
             realtime.cur_flowrate_l = 400;
         }
     }
-
-    ReadModbusAndPressure();//加气中，不断读取流量计与压力传感器的值 ADD BY LY
-
-    if(fabs(realtime.cur_totalize_l - globalvar.pretotalL) > 2)     //液相数据异常 fabs()求浮点数的绝对值 BY LY
+	//正常加气
+	//加气中，不断读取流量计与压力传感器的值 ADD BY LY
+    ReadModbusAndPressure();
+    
+	//液相数据异常 fabs()求浮点数的绝对值 BY LY
+    if(fabs(realtime.cur_totalize_l - globalvar.pretotalL) > 2)     
     {
         globalvar.KeyValue = KEY_STOP;
         stopreason = 3;
     }
+	//液相数据正常
     else
     {
         //进液量计算
         lngvolume = realtime.cur_totalize_l - globalvar.starttotalizeL;
         globalvar.pretotalL = realtime.cur_totalize_l; //将此次实时总累赋值，用于下次判断瞬时数据
     }
-
-    if(sysparas.backgascalc == 1)   //回气计量
+	
+	//回气计量
+    if(sysparas.backgascalc == 1)   
     {
         if(globalvar.starttotalizeG < 0.1)   //防止第一次没有读到气象流量计的起始量
         {
@@ -510,11 +537,13 @@ void DispStartFueling(void)
         }
         else
         {
-            if(fabs(realtime.cur_totalize_g - globalvar.pretotalG) > 1)     //气象数据异常
+        	//气相数据异常
+            if(fabs(realtime.cur_totalize_g - globalvar.pretotalG) > 1)     
             {
                 globalvar.KeyValue = KEY_STOP;
                 stopreason = 3;
             }
+			//气相数据正常
             else
             {
                 //回气量计算
@@ -524,12 +553,14 @@ void DispStartFueling(void)
             }
         }
     }
+	//回气不计量，直接设置为 0 ADD BY LY
     else
     {
-        cngvolume = 0;//回气不计量，直接设置为 0 ADD BY LY
+        cngvolume = 0;
     }
-
-    if(sysparas.unit == 2)   //按标方计量
+	
+	//按标方计量
+    if(sysparas.unit == 2)   
     {
         lngvolume = lngvolume / ((double)sysparas.densty / 10000.0);
         cngvolume = cngvolume / ((double)sysparas.densty / 10000.0);
@@ -545,37 +576,48 @@ void DispStartFueling(void)
     lngvolume = (double)fuelrecordinfo.volume / 100.0;
     //当前交易金额计算
     fuelrecordinfo.money = (uint32_t)(lngvolume * realtime.price + 0.5);
-
-    JudgeStopConditions();//判断停机条件。
+	
+	//判断停机条件
+    JudgeStopConditions();
+	
     realtime.volume = fuelrecordinfo.volume;
     realtime.money = fuelrecordinfo.money;
 
-    //每1s钟，向后台发送一次实时流水 ADD BY LY
+    //每1s钟，向后台发送一次加气实时流水 ADD BY LY
     if(timer1.tick_100ms % 10 == 0)
     {
+    	//加气机上传实时流水
         UpLoad_RunState(2);
     }
 
     FYD12864DispPrintfFlash(1, 1, "状态: 正在加液");
     FYD12864DispPrintfFlash(2, 1, "气量:%ld.%02d", fuelrecordinfo.volume / 100, fuelrecordinfo.volume % 100);
     FYD12864DispPrintfFlash(3, 1, "金额:%ld.%02d", fuelrecordinfo.money / 100, fuelrecordinfo.money % 100);
-    FYD12864DispPrintfFlash(4, 1, "V:%.02f P:%ld.%02d", realtime.cur_flowrate_l, realtime.cur_pressure / 100, realtime.cur_pressure % 100);
+    FYD12864DispPrintfFlash(4, 1, "V:%.01f T:%.01f ", realtime.cur_flowrate_l, realtime.cur_temperature_l);
 
+	//按停止键，停止加气
     TaskAdd(KEY_STOP, StopFueling, NULL);
 
-    realtime.powerdown = 0;        //未掉电标志。
+	//未掉电标志
+    realtime.powerdown = 0;    
+	
     //动态显示瞬时加气数据
     OsplcShow(fuelrecordinfo.volume, fuelrecordinfo.money, realtime.price, 0, 0);
 
     //判断是否掉电
     if(PowerCheckIn == 1)
     {
+    	//过20ms，再次检测是否已掉电
         _delay_ms(20);
-
         if(PowerCheckIn == 1)
         {
-            realtime.powerdown = 1;    //已掉电。
-            SaveRealtime();//保存掉电实时数据realtime
+        	//已掉电（该标志暂时未使用）
+            realtime.powerdown = 1;   
+			
+			//保存掉电实时数据realtime
+            SaveRealtime();
+			
+			//关泵、阀，掉电提示
             PowerDown();
         }
     }
@@ -592,26 +634,36 @@ void DispStartFueling(void)
 *************************************************************************/
 void StopFueling(void)
 {
-    globalvar.fuelstep = 3; 		//加气步骤3。
+	//加气步骤3
+    globalvar.fuelstep = 3; 		
+	//付款状态
     globalvar.workstate = StaPay;
+	
     FYD12864DispPrintfFlash(1, 1, "状态：加液结束");
 
     if(globalvar.displayonce == 1)
     {
-
-        if(globalvar.otherstate == 1)   //对方未加液
-        {
+		//关阀前，互锁判断
+		//对方待机
+        if(globalvar.otherstate == 1)   
+        {	
+        	//进入小循环
             PumpSwitch(StaSPrecool);
         }
+		//对方加液
         else
         {
+        	//关闭中压、高压阀门
             PumpSwitch(StaOtherFuel);
         }
 
         globalvar.displayonce = 0;
-        lngvolume = 0;                                  //加液结束后气量变量清零。
-
-        globalvar.stoppumptime = sysparas.stoppumptime + 2; //加液后停泵延时
+		
+		//加液结束后气量变量清零
+        lngvolume = 0;                                  
+		//加液后停泵延时
+        globalvar.stoppumptime = sysparas.stoppumptime + 2; 
+		
         //交易流水号
         sysparas.transnum++;
         fuelrecordinfo.transnum = sysparas.transnum;
@@ -625,17 +677,20 @@ void StopFueling(void)
         sysparas.shiftotmon += fuelrecordinfo.money;
         //班加气次数
         sysparas.shiftfueltimes++;
+		
         //保存系统参数
         StopFuelingSaveParas();
 
+		//非VIP卡加气
         if((fuelrecordinfo.cardtype != 0) && (fuelrecordinfo.cardtype != 7))
         {
-            //卡加气后余额	计算余额
+            //记账卡加气后余额	计算余额
             if(fuelrecordinfo.cardtype == 3)
             {
                 fuelrecordinfo.afterbalance = fuelrecordinfo.afterbalance + fuelrecordinfo.money;
                 fuelrecordinfo.CalMoney = fuelrecordinfo.CalMoney + fuelrecordinfo.money;
             }
+			//除VIP卡、记账卡以外的卡 计算余额
             else
             {
                 fuelrecordinfo.afterbalance = fuelrecordinfo.afterbalance - fuelrecordinfo.money;
@@ -679,15 +734,18 @@ void StopFueling(void)
         m1card.debittimes = 10;
     }
 
-    if((m1card.existflag == 1) && (PowerCheckIn == 0))       //判断是否用卡加气且未掉电。
+	 //用卡加气结束且未掉电
+    if((m1card.existflag == 1) && (PowerCheckIn == 0))      
     {
-        if((m1card.checkresult == 0x00) && (m1card.cardtype_another != 7))       //有卡加气
+    	//有非VIP卡且卡通过验证
+        if((m1card.checkresult == 0x00) && (m1card.cardtype_another != 7))       
         {
             FYD12864DispPrintfFlash(1, 1, "状态：正在扣款..");
-
+			//扣款
             if(IcCardPayMoney())
             {
                 FYD12864DispPrintfFlash(1, 1, "状态：扣款成功");
+				//解灰
                 GreyUnLock();
             }
             else
@@ -699,7 +757,8 @@ void StopFueling(void)
         globalvar.displayonce = 1;
         DispUI = FuelEndDisplay;
     }
-    else if(PowerCheckIn == 0)   //未掉电。
+	//无卡加气结束且未掉电
+    else if(PowerCheckIn == 0)   
     {
         globalvar.displayonce = 1;
         DispUI = FuelEndDisplay;
@@ -731,45 +790,46 @@ void StopFueling(void)
 **	创建日期:	2016-5-10
 *************************************************************************/
 void FuelEndDisplay(void)
-{
+{	
     if(globalvar.displayonce == 1)
     {
         globalvar.displayonce = 0;
 
         //crc计算 放到流水保存以前 以免数据再被修改 ADD BY LY
         fuelrecordinfo.crc = ModbusCrc16((uint8_t*)(&fuelrecordinfo.transnum), (sizeof(FuelRecordInfo) - 2));           //changed by LY
-
+		//保存加气流水
         if(SaveFuelRecord(0))
         {
             FYD12864DispPrintfFlash(1, 1, "状态: 保存成功");
-
-            if(sysparas.printmode == 1)   //判断是否自动打印一次。
-            {
-                Printid();
-            }
         }
         else
         {
             FYD12864DispPrintfFlash(1, 1, "状态: 保存失败");
         }
 
-        UpLoad_RunState(0);   //加气结束，发送加气结束状态给后台 ADD BY LY
+		//加气结束，加气机主动发送加气结束状态给后台 ADD BY LY
+        UpLoad_RunState(0);   
 
-        if(sysparas.printmode == 1)   //判断是否自动打印一次。
+		//判断是否自动打印一次
+        if(sysparas.printmode == 1)  
         {
-            Printid();
+        		Printid();
         }
 
+		//空闲状态
         globalvar.workstate = StaIdle;
+
+		//防止多次调用函数TaskMessage而不起作用
         globalvar.MsgFlag = 0;
-        globalvar.MsgTime = 0; //防止多次调用函数TaskMessage而不起作用
+        globalvar.MsgTime = 0; 
     }
 
     FYD12864DispPrintfFlash(4, 1, "停机: %s", stopreasonbuf[stopreason]);
 
-    TaskAdd(KEY_RET, DispFirst, NULL);
-    TaskAdd(KEY_OK, StopPrint, NULL);
-    TaskMessage(50, DispFirst);   // 3s后返回主界面
+	
+    TaskAdd(KEY_RET, DispFirst, NULL);//按返回键，回到主界面
+    TaskAdd(KEY_OK, StopPrint, NULL); //按确认键，打印当前流水
+    TaskMessage(50, DispFirst); 	  //没有任何操作，3s后返回主界面  
 }
 
 /************************************************************************
@@ -822,12 +882,17 @@ void GetCardData(void)
     FYD12864DispPrintfFlash(2, 1, "    读卡中");
     FYD12864DispPrintfFlash(3, 1, "    请稍后...");
 
+	//置卡存在标志
     m1card.existflag = 1;
-    m1card.checkresult = 0xFF;                   //卡验证结果标志。
-    globalvar.KeyValue = 0;                      //按任何按键，皆无效。
+	
+	//初始化卡验证结果标志 0xFF表示等待验证
+    m1card.checkresult = 0xFF;  
+	
+	//按任何按键，皆无效
+    globalvar.KeyValue = 0;                      
 
-    //后续需将以下注释打开，从EEPROM中去读B密
-    EepromInterReadBytes(LOCKVER_ADDR, keyb, 6);   //从系统中读出B密，存入keyb数组中 ADD BY LY
+    //从EEPROM中去读出卡B密，存入keyb[]中	ADD BY LY
+    EepromInterReadBytes(LOCKVER_ADDR, keyb, 6);
     memcpy(&m1card.keyB[0], keyb, 6);  //将B密重新赋值
 
     /**** 将块 1、2、4、5、6、9、10、13、14、16、17、18的数据读出存入m1card结构体中 ADD BY LY *****/
@@ -846,6 +911,7 @@ void GetCardData(void)
         }
     }
 
+	//tmp为非 0，表示读块失败 ADD BY LY
     if(tmp > 0)
     {
         if(m1card.checkresult == 0xFF)
@@ -997,38 +1063,47 @@ void IcCardPasswd(void)
     uint8_t tmpbuffer[6], count = 0;
     uint32_t tmp1, tmp2;
 
-    //车牌号 密码：0000
+    //车牌号，即M1卡密码：0000
     for(count = 0; count < 2; count++)
     {
-        tmpbuffer[count] = AscToBcd(&m1card.carnum[count * 2]);   //BCD 4个字节的ASCII 转换成2个字节的BCD
+    	//4个字节的ASCII 转换成 2个字节的BCD
+        tmpbuffer[count] = AscToBcd(&m1card.carnum[count * 2]);   
     }
-
-    m1card.carnum_another = BcdbufToHex(&tmpbuffer[0], 2);   //HEX
+	//2个字节的BCD 转换成 一个32位的HEX
+    m1card.carnum_another = BcdbufToHex(&tmpbuffer[0], 2);   
 
     m1card.key = m1card.carnum_another;//车牌号即卡密码
-
-    if(sysparas.cardcheck == 0)                  //不需要检验钢瓶日期。
+    
+	//不需要检验钢瓶日期
+    if(sysparas.cardcheck == 0)                  
     {
-        if(m1card.key == 0)                     //卡密码为0，直接跳过。
+    	//卡密码为0，不输入密码
+        if(m1card.key == 0)                     
         {
+        	//卡信息验证
             DispUI = CardMessageCheck;
         }
-        else                                     //卡密码不为0，则输入密码。
+		//卡密码不为0，则输入密码
+        else                                     
         {
         	InputInit();
             DispUI = InputIccardPasswd;
         }
     }
-    else if(sysparas.cardcheck == 1)             //需要检验钢瓶日期。
+	 //需要检验钢瓶日期
+    else if(sysparas.cardcheck == 1)            
     {
-        tmpbuffer[0] = (m1card.cylindersdate[0] - 0x30) * 10 + (m1card.cylindersdate[1] - 0x30);     //ASCII 转 十进制 ADD BY LY
+    	//ASCII 转 十进制 ADD BY LY
+        tmpbuffer[0] = (m1card.cylindersdate[0] - 0x30) * 10 + (m1card.cylindersdate[1] - 0x30);     
         tmpbuffer[1] = (m1card.cylindersdate[2] - 0x30) * 10 + (m1card.cylindersdate[3] - 0x30);
         tmpbuffer[2] = (m1card.cylindersdate[4] - 0x30) * 10 + (m1card.cylindersdate[5] - 0x30);
 
+		//验证过期的方法：转换成天数比较
         tmp1 = tmpbuffer[0] * 365 + tmpbuffer[1] * 30 + tmpbuffer[2];
         tmp2 = time.year * 365 + time.month * 30 + time.day;
 
-        if(tmp1 > tmp2)		//钢瓶未到期日期 ADD BY LY
+		//钢瓶未到期日期 ADD BY LY
+        if(tmp1 > tmp2)		
         {
             if(m1card.key == 0)                 //卡密码为0，直接跳过。
             {
@@ -1062,13 +1137,18 @@ void DispDateOver(void)
     FYD12864ClearLine(4);
     FYD12864DispPrintfFlash(2, 1, "钢瓶已经过期");
 
-    tmpbuffer[0] = (m1card.cylindersdate[0] - 0x30) * 10 + (m1card.cylindersdate[1] - 0x30);     //ASCII 转 十进制 ADD BY LY
+	//ASCII 转 十进制 ADD BY LY
+    tmpbuffer[0] = (m1card.cylindersdate[0] - 0x30) * 10 + (m1card.cylindersdate[1] - 0x30);     
     tmpbuffer[1] = (m1card.cylindersdate[2] - 0x30) * 10 + (m1card.cylindersdate[3] - 0x30);
     tmpbuffer[2] = (m1card.cylindersdate[4] - 0x30) * 10 + (m1card.cylindersdate[5] - 0x30);
 
-    FYD12864DispPrintfFlash(3, 1, "%02d-%02d-%02d", tmpbuffer[0], tmpbuffer[1], tmpbuffer[2]);   //显示钢瓶日期 只取年月日，年取后两位数
+	//显示钢瓶到期日期 只取年月日，年取后两位数
+    FYD12864DispPrintfFlash(3, 1, "%02d-%02d-%02d", tmpbuffer[0], tmpbuffer[1], tmpbuffer[2]);   
+
+	//按返回键返回主界面
     TaskAdd(KEY_RET, DispFirst, NULL);
 
+	//读卡序列号，实际是检测卡是否还存在 ADD BY LY
     if(Mt318GetCardSerialNum() != true)
     {
         DispUI = DispFirst;
@@ -1129,9 +1209,10 @@ void ComparePasswd(void)
 void DispCardInfo(void)
 {
     globalvar.timeout = 0;
-
+	//显示卡号
     FYD12864DispPrintfFlash(1, 1, "卡号: %ld", m1card.cardnum_another);
 
+	//显示卡类型
     switch(m1card.cardtype_another)
     {
         case 0x01:
@@ -1162,21 +1243,25 @@ void DispCardInfo(void)
             FYD12864DispPrintfFlash(2, 1, "类型: VIP 卡");
             break;
     }
-
+	//显示卡余额
     FYD12864DispPrintfFlash(3, 1, "余额: %ld.%02d", m1card.cardbalance_another / 100, m1card.cardbalance_another % 100);
-    FYD12864DispPrintfFlash(4, 1, "单价: %.02f", (double)m1card.currentprice / 100);
+	//显示卡对应单价
+	FYD12864DispPrintfFlash(4, 1, "单价: %.02f", (double)m1card.currentprice / 100);
 
-    TaskAdd(KEY_FIX, FixGas, NULL);   //定量加气。
-
-    if(sysparas.fuelmode == 0)	    //手动加气。
+	//手动加气
+    if(sysparas.fuelmode == 0)	    
     {
         globalvar.displayonce = 1;
-        TaskAdd(KEY_START, StartPrecooling, NULL);
-        TaskAdd(KEY_BACK, StartPrecooling, DispFirst);
+
+		//此处调用TaskAdd，虽然NextUi = NULL，但是在StartPrecooling中，检测到有卡加气，就进入GreyLock
+        TaskAdd(KEY_START, StartPrecooling, NULL);    //按加气键，开始预冷，然后开始加气
+        TaskAdd(KEY_BACK, StartPrecooling, DispFirst);//按回显键，进入预冷，然后返回主界面
     }
+	
     InputInit();
-    TaskAdd(KEY_QRY, DispQuery1, NULL);								//查询。
-    TaskAdd(KEY_SET, DispInputMenuPwd, NULL);						//设置。
+    TaskAdd(KEY_FIX, FixGas, NULL); 		 //按定量键，定量加气
+    TaskAdd(KEY_QRY, DispQuery1, NULL);		 //按查询键，进入查询功能	
+    TaskAdd(KEY_SET, DispInputMenuPwd, NULL);//按菜单键，进入设置功能
 
     if(m1card.existflag == 0)   //卡被拔出
     {
@@ -1197,17 +1282,17 @@ void CardMessageCheck(void)
 {
     uint8_t count;
     uint8_t tmpbuffer[6];
-    //uint32_t rd=1;//此处需要根据M1卡类型取系统参数中读取单价等级，然后给价格对应等级的单价赋值给rd ADD BY LY
     uint32_t tmp = 0;
     UnionU32 trans;
 
     //卡号
     for(count = 0; count < 4; count++)
     {
-        tmpbuffer[count] = AscToBcd(&m1card.cardnum[count * 2]);   //BCD
+    	// 4字节 ASCII to 2字节 BCD
+        tmpbuffer[count] = AscToBcd(&m1card.cardnum[count * 2]);   
     }
-
-    m1card.cardnum_another = BcdbufToHex(tmpbuffer, 4);   //HEX
+	//2字节 BCD to 1个32位 HEX
+    m1card.cardnum_another = BcdbufToHex(tmpbuffer, 4);   
 
     //交易流水
     for(count = 0; count < 4; count++)
@@ -1353,14 +1438,17 @@ void CardMessageCheck(void)
             globalvar.displayonce = 0;
         }
     }
-
-    if(m1card.greyFlag[1] == 0x32)   //0x32 为"2"的ASCII码 2表示灰卡 ADD BY LY
+	
+	//0x32 为"2"的ASCII码 2表示灰卡 ADD BY LY
+    if(m1card.greyFlag[1] == 0x32)   
     {
         m1card.checkresult = 0x0D;
         DispUI = CardDataError;
         return;
     }
-    else if(m1card.lossFlag[1] == 0x32)   //0x32 为"2"的ASCII码 2表示挂失卡（只有在卡拿去后台写了以后，该标志才会改变）ADD BY LY
+	
+	//0x32 为"2"的ASCII码 2表示挂失卡（只有在卡拿去后台写了以后，该标志才会改变）ADD BY LY
+    else if(m1card.lossFlag[1] == 0x32)   
     {
         m1card.checkresult = 0x0E;
         DispUI = CardDataError;
@@ -1368,8 +1456,11 @@ void CardMessageCheck(void)
     }
     else
     {
-        m1card.checkflag = 1;//
-        m1card.checkresult = 0;//验证通过
+    	//该变量暂时未使用 ADD BY LY
+        m1card.checkflag = 1;
+		
+        //M1卡验证通过
+        m1card.checkresult = 0;
         globalvar.displayonce = 0;
     }
 
@@ -2220,18 +2311,20 @@ uint8_t Card_UpdateSec45(void)
     //写块5
     while(ntry--)
     {
+    	//写失败，再写一次，最多写2次 ADD BY LY
         if(!Mt318WriteM1Card(KEYB, &m1card.keyB[0], 5, rdbuf5))
         {
             continue;
         }
         else
         {
-            flag = true;//比对相同，表示更新成功，退出循环 ADD BY LY
+        	//写块5成功，退出循环 ADD BY LY
+            flag = true;
             break;
         }
     }
 
-    //写块5失败
+    //写块5失败，显示错误代码
     if(flag == false)
     {
         carderror = 1;
@@ -2239,18 +2332,20 @@ uint8_t Card_UpdateSec45(void)
         return flag;
     }
 
-    //写成功，校验数据
+    //写块5成功，校验数据
     flag = false;
-
+	//读块5
     while(ntry--)
     {
-        if(!Mt318ReadM1Card(KEYB, &m1card.keyB[0], 5, rdbufbak))     //读块5
+    	//读块5失败，再读一次，最多读2次
+        if(!Mt318ReadM1Card(KEYB, &m1card.keyB[0], 5, rdbufbak))     
         {
             continue;
         }
         else
         {
-            flag = true;//比对相同，表示更新成功，退出循环 ADD BY LY
+        	//读块5成功，退出循环 ADD BY LY
+            flag = true;
             break;
         }
     }
@@ -2263,8 +2358,8 @@ uint8_t Card_UpdateSec45(void)
         return flag;
     }
 
-    //读成功，比对数据
-    if(memcmp(rdbuf5, rdbufbak, 16) != 0)     //比对写入与读出的数据
+    //读块5成功，比对写入与读出的数据
+    if(memcmp(rdbuf5, rdbufbak, 16) != 0)   
     {
         //比对失败
         flag = false;
@@ -2275,9 +2370,12 @@ uint8_t Card_UpdateSec45(void)
 
     /*************************************************************/
     //更新块4数据
-    flag = false;
+    flag = false;//清标志
+    
+	//将块4的数据存入rdbuf4[]中
     memcpy(&rdbuf4[0], &m1card.balancecrc[0], 16);
-    //卡余额计算 ADD BY LY
+	
+    //将将其后余额转换成ASCII 存于rdbuf[2]后的8个字节 ADD BY LY
     sprintf_P((char*)&rdbuf4[2], "%08ld", fuelrecordinfo.afterbalance);
 
     //卡最后使用时间更新
@@ -2305,9 +2403,11 @@ uint8_t Card_UpdateSec45(void)
     rdbuf4[0] = tmp / 0x10 + 0x30; //卡余额校验码 2字节 ADD BY LY
     rdbuf4[1] = tmp % 0x10 + 0x30;
     /*************************************************************/
-    //写块4
+	
+    //最多写次数初始化
     ntry = 2;
-
+	
+	//写块4
     while(ntry--)
     {
         if(!Mt318WriteM1Card(KEYB, &m1card.keyB[0], 4, rdbuf4))
@@ -2489,8 +2589,10 @@ uint8_t Card_UpdateSec1_67(void)
     uint8_t 	rdbufbak[16];
     uint8_t 	ntry = 2;
     uint8_t  	flag = false;
-
+	
+	//将块16的数据赋值到rdbuf16[]中
     memcpy(rdbuf16, &m1card.block16, 16);
+	
     //卡累计消费次数 更新
     HexToBcdbuf(fuelrecordinfo.allconsumptiontimes, &rdbuf16[0], 4);
     //卡累积消费金额 更新
@@ -2645,8 +2747,10 @@ uint8_t IcCardPayMoney(void)
     //	卡余额与加气前余额相等，说明未扣款 ADD BY LY
     if(m1card.cardbalance_another == fuelrecordinfo.beforebalance)
     {
+    	//更新块4、块5
         ret = Card_UpdateSec45();
     }
+	// 卡余额与加气后余额相等，说明已扣款
     else if(m1card.cardbalance_another == fuelrecordinfo.afterbalance)
     {
         ret = true;
@@ -2663,6 +2767,7 @@ uint8_t IcCardPayMoney(void)
     //更新块45成功，再更新块6
     ret = false;
 
+	//更新块6
     if(Card_UpdateSec6(3))
     {
         ret = true;
@@ -2678,7 +2783,8 @@ uint8_t IcCardPayMoney(void)
 
     //更新块6成功，再更新块16、17
     ret = false;
-
+	
+	//更新块16、17
     if(Card_UpdateSec1_67())
     {
         ret = true;
@@ -2704,10 +2810,14 @@ uint8_t IcCardPayMoney(void)
 ***************************************************************************/
 void PowerDown(void)
 {
-    PumpSwitch(StaClose);                                               //停机。
+	//停机
+    PumpSwitch(StaClose);     
+	
     FYD12864DispPrintfFlash(1, 1, "系统已掉电...");
     FYD12864DispPrintfFlash(4, 1, "数据已保存");
     DispUI = PowerDown;
+
+	//按返回键，重启系统
     TaskAdd(KEY_RET, SoftReset, NULL);
 }
 
@@ -2791,6 +2901,7 @@ void SaveRealtime(void)
         sysparas.shiftotmon += fuelrecordinfo.money;
         //班加气次数
         sysparas.shiftfueltimes++;
+		
         //参数保存
         StopFuelingSaveParas();
 
@@ -2907,9 +3018,11 @@ void PowerDownRealDate(void)
     tmp = (uint8_t *)(&fuelrecordinfo.transnum);
     fuelrecordinfo.crc = ModbusCrc16(tmp, sizeof(FuelRecordInfo) - 2);		//changed by LY
 
+	//保存掉电后，恢复的流水
     if(SaveFuelRecord(0))
     {
         FYD12864DispPrintfFlash(4, 1, "数据已恢复");
+		//打印流水
         Printid();
     }
     else
@@ -2934,11 +3047,12 @@ void FixGas(void)
     FYD12864DispPrintfFlash(2, 1, "  1.定气量");
     FYD12864DispPrintfFlash(3, 1, "  2.定金额");
 
-    TaskAdd(KEY_RET, DispFirst, NULL);
-    TaskAdd(KEY_1, FixNum, NULL);
-    TaskAdd(KEY_2, FixMoney, NULL);
-
-    if((m1card.cardtype_another != 0) && (m1card.existflag == 0))       //卡被拔出
+    TaskAdd(KEY_RET, DispFirst, NULL);	//按返回键，回主界面
+    TaskAdd(KEY_1, FixNum, NULL);		//按【1】，进入定气量加气
+    TaskAdd(KEY_2, FixMoney, NULL);		//按【2】，进入定金额加气
+	
+	//卡被拔出
+    if((m1card.cardtype_another != 0) && (m1card.existflag == 0))       
     {
         DispUI = DispFirst;
     }
@@ -2946,7 +3060,8 @@ void FixGas(void)
     globalvar.fixnum = 0;
     globalvar.fixmoney = 0;
     globalvar.displayonce = 1;
-    InputInit();
+	
+    InputInit();//输入结构体初始化
 }
 
 /***************************************************************************
@@ -2964,10 +3079,11 @@ void FixNum(void)
     uint32_t tmp_fixmoney = 0;
     uint32_t  availmoney;     //IC卡可用加气金额
 
-    ScreenInput.inputmaxlen = 5;
+    ScreenInput.inputmaxlen = 5;//输入上限99999
 
     if(globalvar.KeyValue == KEY_CLR)
     {
+    	//清除定气量报警
         FYD12864ClearLine(4);
     }
 
@@ -2977,39 +3093,50 @@ void FixNum(void)
     globalvar.fixnum = atol(buf);
     FYD12864ClearLine(3);
     FYD12864DispPrintfFlash(2, 1, "定气量:%ld.%02d", globalvar.fixnum / 100, globalvar.fixnum % 100);
-    TaskAdd(KEY_RET, DispFirst, NULL);
 
+	TaskAdd(KEY_RET, DispFirst, NULL);//按【返回】，回主界面
+
+	//根据所定气量，计算定的金额
     tmp_fixmoney = (globalvar.fixnum * fuelrecordinfo.price) / 100 ;
-
+	
+	//定气量，必须大于1L或1kg
 	if((globalvar.fixnum < 100) && (globalvar.KeyValue == KEY_OK))
     {
         FYD12864DispPrintfFlash(4, 1, "所定气量过小");
     }
+	//非VIP 卡加气，做定金额处理
     else if((m1card.existflag == 1) && (m1card.checkresult == 0)&&(m1card.cardtype_another != 7))
     {
-        if(m1card.cardtype_another != 3)   //不是记账卡 ADD BY LY
+    	//非记账卡，定金额 ADD BY LY
+        if(m1card.cardtype_another != 3)   
         {
             //程序中所有的钱，都是按分来存取，计算的，只有在显示的时候，变成元来显示给客户看的 ADD BY LY
             availmoney = m1card.cardbalance_another - sysparas.cardminyue;//计算IC卡可用加气金额 ADD BY LY
         }
-        else if(m1card.cardtype_another == 3)   //记账卡
+		//记账卡，定金额
+        else if(m1card.cardtype_another == 3)   
         {
             availmoney = sysparas.accountcardmaxyue - m1card.cardbalance_another;
         }
+		
+		//所定气量超出卡余额上限报警
         if(tmp_fixmoney > availmoney)
         {
             FYD12864DispPrintfFlash(4, 1, "所定气量超出限额");
         }
-        else if((sysparas.fuelmode == 0)&& (globalvar.KeyValue == KEY_OK))   //有卡手动定量加气 ADD BY LY
+		//有卡手动定量加气，按确认开始越冷加气  ADD BY LY
+        else if((sysparas.fuelmode == 0)&& (globalvar.KeyValue == KEY_OK))   
         {
             FYD12864ClearLine(4);
             TaskAdd(KEY_OK, StartPrecooling, NULL);
         }
     }
+	//无卡手动定量加气
     else
     {
-        if((sysparas.fuelmode == 0) && (sysparas.usecard != 1))       //无卡手动定量加气
+        if((sysparas.fuelmode == 0) && (sysparas.usecard != 1))       
         {
+        	//输入金额后，按【确认】，开始预冷、加气
             TaskAdd(KEY_OK, StartPrecooling, StartFueling);
         }
     }
@@ -3030,53 +3157,64 @@ void FixMoney(void)
     char buf[16] = {0};
     uint32_t  availmoney;     //IC卡可用加气金额
 
-    ScreenInput.inputmaxlen = 5;
+    ScreenInput.inputmaxlen = 5;//输入上限99999
 
     //当所定金额过小时，删除原有输入，重新输入，同时清掉错误提示，因NumKeyHandler()对删除键键值做了处理
     //故要在NumKeyHandler()处理以前，进行错误提示的清除动作 ADD BY LY
     if(globalvar.KeyValue == KEY_CLR)
     {
+    	//清除定金额报警提示
         FYD12864ClearLine(4);
     }
 
     NumKeyHandler();
     globalvar.fix = 2;
-    sprintf_P(buf, "%f", atof((char *)ScreenInput.array) * 100);      //输入的是元，但是使用的是分，故需要乘以100 ADD BY LY
+	//输入的是元，但是使用的是分，故需要乘以100 ADD BY LY
+    sprintf_P(buf, "%f", atof((char *)ScreenInput.array) * 100);      
     globalvar.fixmoney = atol(buf);
     FYD12864ClearLine(3);
     FYD12864DispPrintfFlash(2, 1, "定金额:%ld.%02d", globalvar.fixmoney / 100, globalvar.fixmoney % 100);
-    TaskAdd(KEY_RET, DispFirst, NULL);
 
+	//按【返回】，回到主界面
+	TaskAdd(KEY_RET, DispFirst, NULL);
+
+	//定金额大小不能小于默认单价
 	if((globalvar.fixmoney < sysparas.price[0]) && (globalvar.KeyValue == KEY_OK))
     {
         FYD12864DispPrintfFlash(4, 1, "所定金额过小");
     }
     else if((m1card.existflag == 1) && (m1card.checkresult == 0) && (m1card.cardtype_another != 7))
-    {
-        if(m1card.cardtype_another != 3)   //不是记账卡 ADD BY LY
+    {	
+    	//非记账卡 ADD BY LY
+        if(m1card.cardtype_another != 3)   
         {
             //程序中所有的钱，都是按分来存取，计算的，只有在显示的时候，变成元来显示给客户看的 ADD BY LY
             availmoney = m1card.cardbalance_another - sysparas.cardminyue;//计算IC卡可用加气金额 ADD BY LY
         }
-        else if(m1card.cardtype_another == 3)   //记账卡
+		//记账卡
+        else if(m1card.cardtype_another == 3)   
         {
             availmoney = sysparas.accountcardmaxyue - m1card.cardbalance_another;
         }
-
+		
+		//所定金额超出余额上限报警
         if(globalvar.fixmoney > availmoney)
         {
             FYD12864DispPrintfFlash(4, 1, "所定金额超出余额");
         }
-        else if((sysparas.fuelmode == 0)&& (globalvar.KeyValue == KEY_OK)) //手动加气。
+		//所订金额未超限，手动加气模式，输入金额后，按确定，开始预冷加气
+        else if((sysparas.fuelmode == 0)&& (globalvar.KeyValue == KEY_OK)) 
         {
             FYD12864ClearLine(4);
             TaskAdd(KEY_OK, StartPrecooling, NULL);
         }
     }
+	//无卡手动加气
     else
     {
-        if((sysparas.fuelmode == 0) && (sysparas.usecard != 1))       //手动加气。
+        if((sysparas.fuelmode == 0) && (sysparas.usecard != 1))       
         {
+        	//输入金额后，按【确认】开始预冷、加气
             TaskAdd(KEY_OK, StartPrecooling, StartFueling);
         }
     }

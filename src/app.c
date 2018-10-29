@@ -150,16 +150,19 @@ void ClearBuf(volatile uint8_t *buf, uint8_t num, uint16_t len)
 void RecBlckDataCheck(void)
 {
     uint8_t	flag = true;
-    
+
+	//帧头判断
 	if((uart2.recbuf[0] != 0xAA)||(uart2.recbuf[1] != 0xFF))
     {
     	flag = false;
     }
 	
-	if(uart2.reclen >= (uart2.recbuf[5]+9))//数据长度判断
+	//数据长度判断
+	if(uart2.reclen >= (uart2.recbuf[5]+9))
 	{
 		CloseUart2RcvIRQ();
-		if(uart2.recbuf[4] != sysparas.gunnum)	 //枪号不对
+		//枪号判断
+		if(uart2.recbuf[4] != sysparas.gunnum)	 
 		{
 			flag = false;
 		}
@@ -192,11 +195,14 @@ void RecBlckDataCheck(void)
 *************************************************************************/
 void RecBlckDataRplyCheck(void)
 {
+	//数据有效性判断
     RecBlckDataCheck();
 
+	//数据有效
     if(globalvar.comreceiveflag == 1)
     {
         globalvar.comreceiveflag = 0;
+		//回复后台命令
         BGCommunication();
     }
 }
@@ -211,8 +217,10 @@ void UpLoad_Fuel(void)
     {
     	//重复传流水计数器累加
 		globalvar.UploadIdCount++;
+		
 		//重复上传10次，跳过该笔流水
-		if(globalvar.UploadIdCount > 10)   //上传10次不成功，跳过此笔流水
+		//上传10次不成功，跳过此笔流水，传输下一笔流水
+		if(globalvar.UploadIdCount > 10)   
 		{
 			globalvar.UploadIdCount = 0;
 			sysparas.uptransnum++;
@@ -227,9 +235,12 @@ void UpLoad_Fuel(void)
 	//判断是否上传流水
 	if(sysparas.uptransnum < sysparas.transnum)
 	{
+		//从加气机读取要上传的这笔流水
 		ReadFuelRecord(sysparas.uptransnum, 0);
+		//上传流水
 		UpLoad_11H();
 	}	
+	
 	//恢复原来的流水数据 ADD BY LY
 	fuelrecordinfo = fuelrecordinfo_tmp;
 
@@ -245,26 +256,35 @@ void UpLoad_Fuel(void)
 *************************************************************************/
 void ReplyCmd_Poll(void)
 {
+	//加气机处于空闲状态
     if(globalvar.workstate == StaIdle)
     {
+    	//有未上传流水，立即上传
         if(sysparas.uptransnum < sysparas.transnum)
         {
         	UpLoad_Fuel();
         }
+		//有未上传班流水，立即上传
         else if(sysparas.shiftuptransnum < sysparas.shiftransnum)
         {
+        	//从加气机读取要上传的班流水
             ReadFuelRecord(sysparas.shiftuptransnum, 1);
+			//上传班流水
             UpLoad_Shift();
         }
+		//有未上传报警流水，立即上传
         else if(sysparas.uperr_id < sysparas.err_id)
         {
+        	//该功能暂时未使用
             UpLoad_Error();
         }
+		//没有流水可上传，回复51
         else
         {
         	Reply51();
         }
     }
+	//加气机处于加气和空闲状态以外的状态时，回复51
     else
     {
         Reply51();
@@ -289,8 +309,10 @@ void ReplyCmd_ParaSet(void)
     uint8_t i;
 
     memcpy(revbuf, &RecBack485Buf[6], sizeof(revbuf));
-    index = BcdToUint(&revbuf[1]);   //取参数索引
-
+	
+	//取参数索引
+    index = BcdToUint(&revbuf[1]);   
+	//3002 B密
     if(index == 3002)
     {
         for(i = 0; i < 6; i++)
@@ -298,15 +320,18 @@ void ReplyCmd_ParaSet(void)
             keyb[i] = revbuf[i + 3]; //取出下发的密钥
 
         }
-
-        EepromInterWriteBytes(LOCKVER_ADDR, keyb, 6);   //将后台下发的密钥存到内部eeprom中 ADD BY LY
+		
+		//将后台下发的密钥存到内部eeprom中 ADD BY LY
+        EepromInterWriteBytes(LOCKVER_ADDR, keyb, 6);   
     }
+	//修改其余参数功能暂时不写
     else
     {
 
     }
-
-    EepromInterReadBytes(LOCKVER_ADDR, keyb_bak, 6);   //从内存中读出B密//ADD BY LY
+	
+	//从内存中读出B密//ADD BY LY
+    EepromInterReadBytes(LOCKVER_ADDR, keyb_bak, 6);   
 
     //帧头
     BackCommunicationHead(COMM_PARASET);
@@ -326,7 +351,6 @@ void ReplyCmd_ParaSet(void)
     BackCommunicationEnd(SendBack485Count);
     //发送
     Uart2SendStr(SendBack485Buf, SendBack485Count);
-
 }
 
 /************************************************************************
@@ -346,12 +370,15 @@ void ReplyCmd_ParaRead(void)
     uint8_t keyb[9];	//BCD
 
     memcpy(revbuf, &RecBack485Buf[6], sizeof(revbuf));
-
-    index = BcdToUint(&revbuf[1]);	//取参数索引
-
+	
+	//取参数索引
+    index = BcdToUint(&revbuf[1]);	
+	
+	//3002 B密
     if(index == 3002)
     {
-        EepromInterReadBytes(LOCKVER_ADDR, keyb, 6);   //从内存中读出B密//ADD BY LY
+    	//从内存中读出B密//ADD BY LY
+        EepromInterReadBytes(LOCKVER_ADDR, keyb, 6);   
     }
 
     //帧头
@@ -372,8 +399,6 @@ void ReplyCmd_ParaRead(void)
     BackCommunicationEnd(SendBack485Count);
     //发送
     Uart2SendStr(SendBack485Buf, SendBack485Count);
-
-
 }
 
 /************************************************************************
@@ -393,26 +418,34 @@ void ReplyCmd_UidRead(void)
     uint32_t money;
 
     memcpy(revbuf, &RecBack485Buf[6], sizeof(revbuf));
-
-    id = BcdbufToHex(&revbuf[3], 6);   //UID号
-
-    if(revbuf[0] == 0x11)   //读加气流水
+	
+	//要取的流水号（交易流水、班流水、报警流水号之一）
+    id = BcdbufToHex(&revbuf[3], 6);   
+	
+	//读加气流水
+    if(revbuf[0] == 0x11)   
     {
         voluem = fuelrecordinfo.volume;
         money = fuelrecordinfo.money;
+		//从加气机读流水
         ReadFuelRecord(id - 1, 0);
+		//上传读取的流水
         UpLoad_11H();
         fuelrecordinfo.volume = voluem;
         fuelrecordinfo.money = money;
     }
-    else if(revbuf[0] == 0x12)   //读班流水
+	//读班流水
+    else if(revbuf[0] == 0x12)   
     {
+    	//从加气机读班流水
         ReadFuelRecord(id - 1, 1);
+		//上传读取的班流水
         UpLoad_Shift();
     }
-    else if(revbuf[0] == 0x13)   //读报警流水
+	//读报警流水
+    else if(revbuf[0] == 0x13)   
     {
-        //ADD ERROR CODE  ADD BY LY
+        //报警流水功能暂时未写
     }
 }
 
@@ -432,18 +465,20 @@ void ReplyCmd_ResponseOk(void)
     uint32_t id;
 
     memcpy(revbuf, &RecBack485Buf[6], sizeof(revbuf));
-	//UID号（交易流水、班流水、报警流水之一） ADD BY LY
+	
+	//接收到的流水号（交易流水、班流水、报警流水之一） ADD BY LY
     id = BcdbufToHex(&revbuf[3], 6);   
 
 	//加气流水接收成功
     if(revbuf[0] == 0x11)   
     {
         fuelrecordinfo.upflag = 0x01;
-
+		
         if(sysparas.uptransnum == id - 1)
         {
         	//更新已传流水号
             sysparas.uptransnum = id;
+			
 			//保存已传流水号 ADD BY LY
             SaveSignalSysparas(4, 1);
         }
@@ -498,13 +533,14 @@ void ReplyCmd_Losscard(void)
 
     cid = BcdbufToHex(&revbuf[3], 6);
 
+	//挂失
     if(RecBack485Buf[6] == 0x01)
     {
         SetLossCard(cid, 1);   //挂失
     }
     else
     {
-        SetLossCard(cid, 0);
+        SetLossCard(cid, 0);	//解挂 但是目前后台好像没有解挂功能
     }
 
     //帧头
@@ -574,6 +610,7 @@ void ReplyCmd_LossCardsRead(void)
 void Reply_ReadVersion(void)
 {
     uint8_t i, len = 0;
+	
     //帧头
     BackCommunicationHead(COMM_READVERSION);
     //消息体长度
@@ -622,37 +659,47 @@ void Reply_ExShiftId(void)
         tmpbuf[3] = revbuf[12];//(uint8_t)BcdToDec(revbuf[12]);
         tmpbuf[4] = revbuf[13];//(uint8_t)BcdToDec(revbuf[13]);
         tmpbuf[5] = revbuf[14];//(uint8_t)BcdToDec(revbuf[14]);
-
-        if(!CheckDate(&tmpbuf[0]))     //判断下发的日期是否合法 ADD BY LY
+        
+		//判断下发的日期是否合法 ADD BY LY
+        if(!CheckDate(&tmpbuf[0]))     
             return;
-
-        if(!CheckTime(&tmpbuf[3]))     //判断下发的时间是否合法 ADD BY LY
+		
+		//判断下发的时间是否合法 ADD BY LY
+        if(!CheckTime(&tmpbuf[3]))     
             return;
-
-        Ds3232SetTime(tmpbuf); 	   //下发的日期时间均合法，设置日历时钟 ADD BY LY
+		
+		//下发的日期时间均合法，设置日历时钟 ADD BY LY
+        Ds3232SetTime(tmpbuf); 	   
+		
         //上一班的开始时间
         memcpy(&shiftrecordinfo.classstarttime[0], &sysparas.shiftstarttime[0], 6);
-        //上一班结束时间
+		
+        //上一班结束时间（就是当前时间）
         Ds3232ReadTime();
         memcpy(&sysparas.shiftendtime[0], &time, 6);
         memcpy(&shiftrecordinfo.classendtime[0], &sysparas.shiftendtime, 6);
+		
         //下一班开始时间
         memcpy(&sysparas.shiftstarttime[0], &sysparas.shiftendtime[0], 6);
-
-        if(newshiftid > sysparas.shiftmaxnum  || newshiftid < 1)   //下发的班号是否合法，需在1-10之间 ADD BY LY
+		
+		//下发的班号是否合法，需在（1 - sysparas.shiftmaxnum）之间 ADD BY LY
+        if(newshiftid > sysparas.shiftmaxnum  || newshiftid < 1)   
         {
             return;
         }
 
 		globalvar.U8Temp = sysparas.shiftnum;
-        Exshiftid(newshiftid);   //换班
+		
+		//换班
+        Exshiftid(newshiftid);   
 
     }
 
-    //下发班号与当前班号相同 ADD BY LY
-    if(sysparas.shiftuptransnum < sysparas.shiftransnum)   //班累优先传
+    //班累优先传
+    if(sysparas.shiftuptransnum < sysparas.shiftransnum)   
     {
-        UpLoad_Shift();//待上传班累记录数据
+    	//待上传班累记录数据
+        UpLoad_Shift();
         //收到后台确认命令以后，在确认命令里面写已传班流水号 ADD BY LY
     }
 }
@@ -704,6 +751,7 @@ void Exshiftid(uint8_t id)
     //crc
     shiftrecordinfo.crc  = ModbusCrc16(tmp, sizeof(shiftrecordinfo) - 2);
 
+	//保存班流水
     if(SaveFuelRecord(1))
     {
     	//新班号
@@ -721,8 +769,9 @@ void Exshiftid(uint8_t id)
         //新班累积加气次数
         sysparas.shiftfueltimes = 0;
         //打印班流水
-
-        if(ExshiftidSaveParas())   //存系统参数中换班产生的变化参数 ADD BY LY
+        
+		//存系统参数中换班产生的变化参数 ADD BY LY
+        if(ExshiftidSaveParas())   
         {
             FYD12864ClearLine(1);
             FYD12864DispPrintfFlash(2, 1, "换班成功！");
@@ -833,63 +882,71 @@ void RS485_Test(void)
 void BGCommunication(void)
 {
     switch(RecBack485Buf[3])   //根据命令ID判断回复
-    {
-        case COMM_POLL:     //巡检命令
+    {	
+    	//巡检命令
+        case COMM_POLL:     
+			//加气机处于加气状态
             if(globalvar.workstate == StaFuel)
             {
+            	//后台已准备好接收实时数据
                 if(RecBack485Buf[6] == 1)
                 {
+                	//加气机回复加气状态：加气中，并上传实时
                     UpLoad_RunState(2);
                 }
+				//普通51巡检命令
                 else
                 {
+                	//加气机请求后台确认，是否准备好接收实时
                     UpLoad_RunState(1);
                 }
             }
             else
             {
+            	//加气机处于非加气状态
                 ReplyCmd_Poll();
             }
 
             break;
-
-        case COMM_PARASET:  //后台设置参数
+		//后台设置参数
+        case COMM_PARASET:  
             ReplyCmd_ParaSet();
             break;
-
+		//后台读取加气参数
         case COMM_RDPARA:
             ReplyCmd_ParaRead();
             break;
-
-        case COMM_RDUIDREC: //上传指定流水
+		//上传指定流水（后台从加气机取流水）
+        case COMM_RDUIDREC: 
             ReplyCmd_UidRead();
             break;
-
+		//后台收到命令以后，回复加气机OK
         case COMM_RESPONSEOK:
             ReplyCmd_ResponseOk();
             break;
-
-        case COMM_CARDINFO: //新挂失卡
+		//新挂失卡
+        case COMM_CARDINFO: 
             ReplyCmd_Losscard();
             break;
-
-        case COMM_RDALLCARD://读全部挂失卡列表
+		//读全部挂失卡列表
+        case COMM_RDALLCARD:
             ReplyCmd_LossCardsRead();
             break;
-
-        case COMM_EXWORK:   	//换班命令//上传班累
+		//后台下发换班命令
+        case COMM_EXWORK:   	
             Reply_ExShiftId();
             break;
-
-        case COMM_READVERSION:   //远程升级时，用于读取版本号
+		//远程升级时，用于读取版本号
+        case COMM_READVERSION:   
             Reply_ReadVersion();
             break;
-
-        default://如果都不是,就表示接收到的是错误的命令 回传50H
+		//如果都不是,就表示接收到的是错误的命令 回传50H
+        default:
             Reply_ReceiveFail();
             break;
     }
 
+	//数据使用完毕，清空接收buf，为下一次接收数据做准备
     uart2.reclen = 0; //将缓冲长度清零。
     memset((uint8_t *)&uart2.recbuf[0], 0, sizeof(RecBack485Buf));       //清接收缓冲区
     OpenUart2RcvIRQ();    //开接收中断
@@ -1150,7 +1207,8 @@ void UpLoad_Print(void)
 /************************************************************************
 **	函数名称:	UpLoad_RunState(uint8_t state)
 **	函数功能:	装载并发送加气机工作状态 (19H)
-**	输入参数: state：加气机工作状态
+**	输入参数: state：加气机工作状态 
+			  state：0，加气结束；1，加气机请求后台确认是否准备好接收实时数据；2，加气中，加气机发送实时
 **	返回值		：无
 
 **	创 建 者:	LY
