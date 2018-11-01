@@ -579,15 +579,12 @@ void FactoryReset(void)
     tmp_sysparas.pcbaud = 9600;          //后台波特率
 
     tmp_sysparas.fuelmode = 0;           //加气模式
-    tmp_sysparas.printmode = 0;          //小票打印方式
+    tmp_sysparas.printmode = 0;          //小票打印方式		  默认手动
+    tmp_sysparas.printtimes = 1;		 //小票打印次数		  默认1次
+    tmp_sysparas.IsPrintCarnum = 0;		 //是否打印车牌号 默认不打印
 
     //版本编号设置
     tmp_sysparas.pricever = 0;           //单价版本号
-//    tmp_sysparas.blackver = 0;           //黑名单版本号
-//    tmp_sysparas.whitever=0;             //白名单版本号
-//    tmp_sysparas.addbkver=0;             //新增黑名单版本号
-//    tmp_sysparas.delbkver=0;             //新删黑名单版本号
-//    tmp_sysparas.comminfover=0;          //通用信息版本号
 
     //密码设置
     tmp_sysparas.menupwd = 0;            //菜单进入密码

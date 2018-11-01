@@ -204,7 +204,7 @@ void WHFuelRecord(void)
 {
     SELECT_PRINT();
     WHPrinterHead();
-    WHPrintfString("          LCNG加气凭条\r\n");
+    WHPrintfString("          LNG加气凭条\r\n");
     WHPrinterFreeRow(1);
     WHPrinterNormalCmd();
 
@@ -242,11 +242,13 @@ void WHFuelRecord(void)
 		WHPrintfFlash("车牌号:%04ld\r\n", fuelrecordinfo.carnum_another);
 	WHPrintfFlash("站编码:%ld\r\n", sysparas.stationcode);
     WHPrintfFlash("停机原因:%s\r\n", stopreasonbuf[fuelrecordinfo.stopreason]);
-    WHPrintfFlash("开始时间:20%02X-%02X-%02X %02X:%02X:%02X\r\n", fuelrecordinfo.starttime[0], fuelrecordinfo.starttime[1], fuelrecordinfo.starttime[2],
+
+	WHPrintfFlash("开始时间:20%02X-%02X-%02X %02X:%02X:%02X\r\n", fuelrecordinfo.starttime[0], fuelrecordinfo.starttime[1], fuelrecordinfo.starttime[2],
                   fuelrecordinfo.starttime[3], fuelrecordinfo.starttime[4], fuelrecordinfo.starttime[5]);
     WHPrintfFlash("结束时间:20%02X-%02X-%02X %02X:%02X:%02X\r\n", fuelrecordinfo.endtime[0], fuelrecordinfo.endtime[1], fuelrecordinfo.endtime[2],
                   fuelrecordinfo.endtime[3], fuelrecordinfo.endtime[4], fuelrecordinfo.endtime[5]);
-    WHPrinterFreeRow(1);
+
+	WHPrinterFreeRow(1);
     WHPrintfString("     欢迎光临  出行平安\r\n");   //下分割线
     WHPrintfString("     <请妥善保存此凭条>\r\n");   //脚注
     WHPrinterFreeRow(6);
@@ -382,7 +384,7 @@ void WHFuelSumRecord(void)
 {
     SELECT_PRINT();
     WHPrinterHead();
-    WHPrintfString("         LCNG总累记录\r\n");
+    WHPrintfString("         LNG总累记录\r\n");
     WHPrinterFreeRow(1);
     WHPrinterNormalCmd();
     WHPrintfFlash("枪号:%d\r\n", sysparas.gunnum);
@@ -448,7 +450,7 @@ void WHFuelSysInfo(void)
 {
     SELECT_PRINT();
     WHPrinterHead();
-    WHPrintfString("         LCNG系统参数\r\n");
+    WHPrintfString("         LNG系统参数\r\n");
     WHPrinterFreeRow(1);
     WHPrinterNormalCmd();
 

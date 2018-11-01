@@ -268,7 +268,7 @@ void Task100msProcess(void)
     if(globalvar.MsgTime > 0)
         globalvar.MsgTime--;
 
-	//每100ms回复一次后台命令
+	//每100ms判断一次后台命令
     RecBlckDataRplyCheck();
 
 	//每100ms刷新一下界面
@@ -377,7 +377,7 @@ void Task1sProcess(void)
         if(Mt318GetCardSerialNum())                          
         {
         	//获取卡序列号成功后，读卡
-            DispUI = GetCardData;                            
+            DispUI = GetCardData;  
         }
     }
 
@@ -567,7 +567,7 @@ void main(void)
     //先读取系统参数，再根据系统参数初始化各串口
     Uart1Init(sysparas.modbusbaud);   //液相流量计端口初始化 常用19200
     Uart3Init(sysparas.modbusbaud);   //气相流量计端口初始化后 常用19200
-    Uart2Init(sysparas.pcbaud);   	  //后台通讯 485 端口初始化 常用38400
+    Uart2Init(sysparas.pcbaud);   	  //后台通讯 485 端口初始化 常用9600
 
     //读最后一笔实时流水
     EepromInterReadBytes(REALTIMEDATA_ADDR, (uint8_t*)&realtime, sizeof(realtime));      //读最后一笔实时流水

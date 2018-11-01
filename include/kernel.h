@@ -48,7 +48,7 @@ extern "C" {
 #include "lngctrl.h" //加气机控制有关
 
 
-#define VERSION "LTY.V2.X20181018"
+#define VERSION "LTY.V2.X20181101"
 #define EX_EEPROM       1
 #define FLASH (char __farflash*)
 #define Debug 0  // 用于调试使用 

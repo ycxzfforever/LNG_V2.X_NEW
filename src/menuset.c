@@ -2908,6 +2908,7 @@ void DispSetPrintTimes(void)
     {
         tmp_sysparas.printtimes = tmp;
         globalvar.paraindex = 218;
+   		TaskAdd(KEY_OK, DispOK, DispSetPrint);		
     }
     else if(ScreenInput.inputlen > 0)
     {
@@ -2919,7 +2920,7 @@ void DispSetPrintTimes(void)
     DispSet(0, sysparas.printtimes, "打印次数设置");
 	
     TaskAdd(KEY_RET, DispSetPrint, NULL);
-    TaskAdd(KEY_OK, DispOK, DispSetPrint);
+
 }
 
 //打印有关设置

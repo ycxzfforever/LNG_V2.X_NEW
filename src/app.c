@@ -220,7 +220,7 @@ void UpLoad_Fuel(void)
 		
 		//重复上传10次，跳过该笔流水
 		//上传10次不成功，跳过此笔流水，传输下一笔流水
-		if(globalvar.UploadIdCount > 10)   
+		if(globalvar.UploadIdCount > 50)   
 		{
 			globalvar.UploadIdCount = 0;
 			sysparas.uptransnum++;
@@ -414,9 +414,7 @@ void ReplyCmd_UidRead(void)
 {
     uint8_t  revbuf[9];
     uint32_t id;
-    uint32_t voluem;
-    uint32_t money;
-
+    
     memcpy(revbuf, &RecBack485Buf[6], sizeof(revbuf));
 	
 	//要取的流水号（交易流水、班流水、报警流水号之一）
@@ -425,14 +423,14 @@ void ReplyCmd_UidRead(void)
 	//读加气流水
     if(revbuf[0] == 0x11)   
     {
-        voluem = fuelrecordinfo.volume;
-        money = fuelrecordinfo.money;
+    	fuelrecordinfo_tmp = fuelrecordinfo;
+		
 		//从加气机读流水
         ReadFuelRecord(id - 1, 0);
 		//上传读取的流水
         UpLoad_11H();
-        fuelrecordinfo.volume = voluem;
-        fuelrecordinfo.money = money;
+		
+    	fuelrecordinfo = fuelrecordinfo_tmp;
     }
 	//读班流水
     else if(revbuf[0] == 0x12)   

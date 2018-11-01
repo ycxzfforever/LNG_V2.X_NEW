@@ -102,7 +102,7 @@ void JudgeStopConditions(void)
     double money_tmp;
     double price_tmp;
     double volume_tmp;
-
+	
     if(globalvar.timeout > (uint32_t)(sysparas.delaystoptime))       //停机延时过后才判断停机条件
     {
         if(realtime.cur_flowrate_l < (float)sysparas.lowratestop)     //低流速停机
@@ -437,8 +437,13 @@ void StartFueling(void)
                 availmoney = sysparas.accountcardmaxyue - m1card.cardbalance_another;
             }
 			
-            globalvar.fix = 2;//定金额加气
-            globalvar.fixmoney = availmoney;			
+			//不是定气量，也不是定金额，就是正常加气，直接将加气设置为定金额加气，金额为可用金额 ADD BY LY
+            if(globalvar.fix == 0)            
+            {
+                //如果不是定量加气，则按定金额加气，如果没有到可用余额上限按下停止，则停止；如果达到可用余额上限，还未按停止键，则加气机达到余额上限自动停机 ADD BY LY
+                globalvar.fix = 2;
+                globalvar.fixmoney = availmoney;
+            }		
         }
     }
 	//无卡加气
@@ -813,7 +818,7 @@ void FuelEndDisplay(void)
 		//判断是否自动打印一次
         if(sysparas.printmode == 1)  
         {
-        		Printid();
+        	Printid();
         }
 
 		//空闲状态
@@ -1605,11 +1610,6 @@ void CardDataError(void)
             FYD12864ClearLine(3);
             break;
 
-        case 0x15:
-            FYD12864DispPrintfFlash(2, 1, "卡号不一致");
-            FYD12864ClearLine(3);
-            break;
-
         case 0x16:
             FYD12864DispPrintfFlash(2, 1, "B 密错误");
             FYD12864ClearLine(3);
@@ -1858,9 +1858,10 @@ void GreyUnLock(void)
     uint8_t ntry = 2;
 
     fuelrecordinfo.greyflag = 0x00; //加气流水中的灰标记清除
+    
     //设置解灰标记
     m1card.greyFlag[0] = 0x30;
-    m1card.greyFlag[1] = 0x31;;
+    m1card.greyFlag[1] = 0x31;
 
     //写解灰标记
     while((ntry--) && (step == 0))
@@ -2013,11 +2014,17 @@ void GreyDataDeal(void)
                 DispUI = IcCardOperaError;
                 return;
             }
-        }
+        }		
         else if(m1card.cardbalance_another == fuelrecordinfo.afterbalance)
         {
             bthird = true;
         }
+		else
+		{	
+            carderror = 41;
+            DispUI = IcCardOperaError;
+            return;		
+		}		
     }
 
     //更新块6
@@ -2084,7 +2091,13 @@ void GreyDataDeal(void)
             DispUI = IcCardOperaError;
             return;
         }
+		
     }
+	
+	if(m1card.existflag == 0)   //卡被拔出
+	{
+		DispUI = DispFirst;
+	}
 }
 
 /************************************************************************
@@ -2375,7 +2388,7 @@ uint8_t Card_UpdateSec45(void)
 	//将块4的数据存入rdbuf4[]中
     memcpy(&rdbuf4[0], &m1card.balancecrc[0], 16);
 	
-    //将将其后余额转换成ASCII 存于rdbuf[2]后的8个字节 ADD BY LY
+    //将其后余额转换成ASCII 存于rdbuf[2]后的8个字节 ADD BY LY
     sprintf_P((char*)&rdbuf4[2], "%08ld", fuelrecordinfo.afterbalance);
 
     //卡最后使用时间更新
